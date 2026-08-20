@@ -49,3 +49,7 @@ Catalog list output is always sorted, paginated, and capped at 50 entries. The d
 The bootstrap catalog is an explicit immutable list of four commands. Before bulk route migration, a generator must become the owner of the catalog list and contract revision so hundreds of command registrations cannot drift.
 
 Package code is compiled through a supported consuming project after publishing an immutable Git revision. Do not add a local UPM dependency for development.
+
+The offline `Migration~` directory tracks the MCP-to-CLI route inventory and
+reviewed cutover decisions. Its generator returns only compact counts by
+default; full catalogs remain file artifacts rather than normal Agent output.
