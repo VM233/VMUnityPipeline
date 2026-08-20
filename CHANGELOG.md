@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.11] - 2026-08-21
+
+### Fixed
+
+- Make catalog text queries separator-insensitive so callers can find a project
+  tool by its route form such as `battle-sandbox`, its normalized CLI name such
+  as `battle_sandbox`, or its human-readable description without guessing the
+  internal separator convention.
+
 ## [0.4.10] - 2026-08-21
 
 ### Fixed

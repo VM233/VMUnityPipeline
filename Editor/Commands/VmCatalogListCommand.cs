@@ -20,7 +20,7 @@ namespace VMUnityPipeline.Editor.Commands
             VmJsonSchema.Object(
                 new Dictionary<string, VmJsonSchema>
                 {
-                    { "query", VmJsonSchema.String("Case-insensitive substring matched against name, description, package, and tags.") },
+                    { "query", VmJsonSchema.String("Case-insensitive substring matched against name, description, package, and tags. Common separators such as spaces, dashes, underscores, slashes, dots, and colons are equivalent.") },
                     { "package", VmJsonSchema.String("Exact package identifier filter.") },
                     { "tag", VmJsonSchema.String("Exact tag or tag subtree filter.") },
                     { "side_effect", VmJsonSchema.String("Exact declared side-effect filter.") },
@@ -102,13 +102,15 @@ namespace VMUnityPipeline.Editor.Commands
             }
 
             var tagPrefix = tag == null ? null : tag + "/";
+            string normalizedQuery = NormalizeSearchText(query);
             var summaries = new List<VmCommandSummary>(
                 Math.Min(limit, VmCommandContractCatalog.Contracts.Count));
             var total = 0;
 
             foreach (var contract in VmCommandContractCatalog.Contracts)
             {
-                if (!Matches(contract, query, package, tag, tagPrefix, sideEffect))
+                if (!Matches(contract, query, normalizedQuery, package,
+                        tag, tagPrefix, sideEffect))
                 {
                     continue;
                 }
@@ -127,6 +129,7 @@ namespace VMUnityPipeline.Editor.Commands
         private static bool Matches(
             VmCommandContract contract,
             string query,
+            string normalizedQuery,
             string package,
             string tag,
             string tagPrefix,
@@ -146,10 +149,14 @@ namespace VMUnityPipeline.Editor.Commands
             if (sideEffect != null && !MatchesSideEffect(contract, sideEffect))
                 return false;
 
-            return query == null || MatchesQuery(contract, query);
+            return query == null ||
+                   MatchesQuery(contract, query, normalizedQuery);
         }
 
-        private static bool MatchesQuery(VmCommandContract contract, string query)
+        private static bool MatchesQuery(
+            VmCommandContract contract,
+            string query,
+            string normalizedQuery)
         {
             if (contract.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
                 contract.Description.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
@@ -166,7 +173,69 @@ namespace VMUnityPipeline.Editor.Commands
                 }
             }
 
+            if (normalizedQuery.Length == 0)
+            {
+                return false;
+            }
+
+            if (NormalizeSearchText(contract.Name).IndexOf(
+                    normalizedQuery,
+                    StringComparison.OrdinalIgnoreCase) >= 0 ||
+                NormalizeSearchText(contract.Description).IndexOf(
+                    normalizedQuery,
+                    StringComparison.OrdinalIgnoreCase) >= 0 ||
+                NormalizeSearchText(contract.Package).IndexOf(
+                    normalizedQuery,
+                    StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return true;
+            }
+
+            foreach (string contractTag in contract.Tags)
+            {
+                if (NormalizeSearchText(contractTag).IndexOf(
+                        normalizedQuery,
+                        StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+
             return false;
+        }
+
+        private static string NormalizeSearchText(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
+            var characters = new char[value.Length];
+            int length = 0;
+            bool previousWasSeparator = true;
+            foreach (char character in value)
+            {
+                if (char.IsLetterOrDigit(character))
+                {
+                    characters[length++] = character;
+                    previousWasSeparator = false;
+                    continue;
+                }
+
+                if (previousWasSeparator == false)
+                {
+                    characters[length++] = ' ';
+                    previousWasSeparator = true;
+                }
+            }
+
+            if (length > 0 && characters[length - 1] == ' ')
+            {
+                length--;
+            }
+
+            return new string(characters, 0, length);
         }
 
         private static bool MatchesTag(
