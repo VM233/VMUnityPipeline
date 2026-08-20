@@ -11,6 +11,13 @@ All notable changes to this package are documented here.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
 
+## [0.2.6] - 2026-08-20
+
+### Fixed
+
+- Keep the public catalog-status package version synchronized with the UPM
+  manifest so live CLI evidence identifies the active release exactly.
+
 ## [0.2.5] - 2026-08-20
 
 ### Changed

@@ -1,6 +1,6 @@
 {
   "name": "com.vm233.unity-pipeline",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "displayName": "VM Unity Pipeline",
   "description": "Token-efficient Unity CLI Pipeline extensions with rich command contracts and precise Editor state.",
   "unity": "6000.0",
