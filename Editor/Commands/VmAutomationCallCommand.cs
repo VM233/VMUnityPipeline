@@ -11,7 +11,9 @@ namespace VMUnityPipeline.Editor.Commands
     {
         public const string CommandName = "vm_automation_call";
         public const string Description =
-            "Execute one exact VM automation or project-tool contract through the shared owner.";
+            "Execute one exact VM automation or project-tool contract through the shared owner. " +
+            "For VFX, import, build, or other long main-thread work, submit the outer Unity CLI " +
+            "command with --detach and collect it with unity job wait.";
 
         public static readonly VmCommandContract Contract = new VmCommandContract(
             CommandName,
@@ -25,7 +27,9 @@ namespace VMUnityPipeline.Editor.Commands
                     { "expected_project_path", VmJsonSchema.String("Absolute project root required by mutating owner contracts.") },
                     { "request_id", VmJsonSchema.String("Optional idempotent request identifier.") },
                     { "agent_id", VmJsonSchema.String("Optional caller identity for action and job ownership.") },
-                    { "timeout_seconds", VmJsonSchema.Integer("Deferred-call wait timeout.", 120, 1, 3600) }
+                    { "timeout_seconds", VmJsonSchema.Integer(
+                        "Inner automation deferred-call wait timeout. This does not extend the outer Unity CLI request timeout; use unity command --detach for long main-thread work.",
+                        120, 1, 3600) }
                 },
                 new[] { "command" }),
             CreateOutputSchema(),
@@ -70,7 +74,8 @@ namespace VMUnityPipeline.Editor.Commands
             string requestId = null,
             [CliArg("agent_id", "Optional caller identity.")]
             string agentId = null,
-            [CliArg("timeout_seconds", "Deferred-call timeout from 1 through 3600 seconds.")]
+            [CliArg("timeout_seconds",
+                "Inner deferred-call timeout from 1 through 3600 seconds. Use the outer CLI --detach option for long main-thread work.")]
             int timeoutSeconds = 120)
         {
             if (!VmCliJsonArguments.TryParseObject(

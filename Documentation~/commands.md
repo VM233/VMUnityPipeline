@@ -45,3 +45,8 @@ the transport-neutral owner. `arguments_json` must be one JSON object. Mutations
 the connected checkout's exact absolute path via `expected_project_path`; dangerous
 contracts require `confirm=true` in the JSON object. Request IDs are idempotent inside the
 current Editor domain, while reload-resumable owners publish durable job state.
+
+`timeout_seconds` is the inner wait bound used by the automation facade. It cannot extend
+the official CLI request timeout around this main-thread command. Submit VFX Graph,
+import, build, and similarly long work with `unity command --detach`, retain the returned
+job ID, and collect the terminal result with `unity job wait --project-path <path> <job-id>`.

@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.2] - 2026-08-20
+
+### Changed
+
+- Guide long main-thread automation calls to the official Unity CLI detached-job flow in
+  command discovery, argument metadata, and package documentation; clarify that
+  `timeout_seconds` is an inner automation timeout rather than the outer CLI request bound.
+- Require VM Unity Automation 0.3.5 with isolated VFX Graph dry-run transactions.
+
 ## [0.4.1] - 2026-08-20
 
 ### Fixed

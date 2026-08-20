@@ -72,6 +72,21 @@ The first three commands read immutable managed contract data on a background th
 automation contracts require an exact absolute `expected_project_path`; dangerous
 contracts additionally require `confirm=true` inside `arguments_json`.
 
+VFX Graph transactions, imports, builds, and other long main-thread operations must be
+submitted with the official CLI's outer `--detach` option, then collected by job ID. The
+facade's `timeout_seconds` controls only an inner deferred automation owner; it does not
+extend the CLI request timeout:
+
+```powershell
+$submission = unity --json --no-banner --non-interactive command --detach `
+  --project-path 'D:\UnityProjects\YourProject' vm_automation_call -- `
+  --command vm_auto_vfxgraph_transaction --arguments_json $argumentsJson `
+  --expected_project_path 'D:\UnityProjects\YourProject' | ConvertFrom-Json
+$jobId = $submission.data.jobId
+unity --json --no-banner --non-interactive job wait `
+  --project-path 'D:\UnityProjects\YourProject' $jobId
+```
+
 ## Output contract
 
 Domain failures are returned inside the command result with `ok=false` and a stable error
