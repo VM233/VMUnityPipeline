@@ -11,6 +11,13 @@ All notable changes to this package are documented here.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
 
+## [0.2.1] - 2026-08-20
+
+### Fixed
+
+- Declare the automation package by SemVer so Unity Package Manager can satisfy it
+  from the consuming project's separately pinned immutable Git revision.
+
 ## [0.2.0] - 2026-08-20
 
 ### Added
