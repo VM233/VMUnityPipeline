@@ -81,7 +81,9 @@ namespace VMUnityPipeline.Editor.Contracts
                 ToArray(sideEffects),
                 ToArray(preconditions),
                 ReadString(tool, "completionEvidence") ??
-                "Returns the owner result after the automation route reports completion.",
+                "Returns the owner result. If that result contains jobId and " +
+                "pollRoute, it is durable admission evidence and must be " +
+                "polled until terminal.",
                 ReadString(transaction, "scope") ?? "none",
                 ReadString(transaction, "atomicity") ?? "none",
                 ReadString(transaction, "isolation") ?? "none",

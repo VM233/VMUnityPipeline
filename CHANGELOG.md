@@ -2,6 +2,16 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.13] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.14 so durable workspace contracts expose
+  their structured errors, actual idempotency failures, and explicit
+  admission-versus-completion evidence.
+- Clarify that `vm_automation_call` completes the outer invocation while a
+  returned durable Job still requires `vm_job_status` polling.
+
 ## [0.4.12] - 2026-08-21
 
 ### Fixed

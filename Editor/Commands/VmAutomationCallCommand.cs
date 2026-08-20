@@ -52,7 +52,9 @@ namespace VMUnityPipeline.Editor.Commands
             },
             new[] { "depends_on_selected_command" },
             new[] { "pipeline_connected", "editor_connected" },
-            "Returns the selected owner's completed result or one stable domain error.",
+            "Returns the selected owner response or one stable domain error. " +
+            "A response containing an inner jobId is durable admission evidence; " +
+            "poll it with vm_job_status until terminal.",
             transactionScope: "delegated",
             transactionAtomicity: "declared_by_selected_command",
             transactionIsolation: "request_and_owner",
