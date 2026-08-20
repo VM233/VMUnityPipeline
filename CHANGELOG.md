@@ -2,6 +2,18 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.4] - 2026-08-20
+
+### Added
+
+- Add one background-safe `vm_job_status` command backed by Automation's immutable
+  published snapshots, keeping durable package/import/build jobs observable while Unity's
+  main thread is busy without expanding every automation route into a CLI command.
+
+### Changed
+
+- Require VM Unity Automation 0.3.7 for the thread-safe published-job read boundary.
+
 ## [0.4.3] - 2026-08-20
 
 ### Fixed

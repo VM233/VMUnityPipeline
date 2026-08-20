@@ -38,6 +38,14 @@ isChangingPlayMode is derived from Unity's two authoritative EditorApplication f
 
 The command is main-thread-only. It does not enter or exit Play Mode and does not modify project state.
 
+## vm_job_status
+
+Reads the latest immutable published snapshot for one durable VM automation job by
+`job_id` or `request_id`. Supply the returned `job_access_token` when the original caller
+identity is unavailable. This command runs off the Unity main thread, so it remains usable
+while package import, compilation, build, or another long Editor operation is blocking the
+main-thread automation facade.
+
 ## vm_automation_call
 
 Executes one exact `vm_auto_` or `vm_pt_` contract, or one exact automation route, through

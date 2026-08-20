@@ -54,12 +54,13 @@ unity --non-interactive --no-banner shell --protocol ndjson
 recording either an opt-in or opt-out. The Agent must not choose that preference
 for the user. Do not replace this shell with an alternate transport.
 
-The official CLI surface contains only five commands:
+The official CLI surface contains only six commands:
 
 - vm_catalog_status
 - vm_catalog_list
 - vm_catalog_get
 - vm_editor_state
+- vm_job_status
 - vm_automation_call
 
 The automation catalog can contain hundreds of contracts without registering hundreds of
@@ -71,6 +72,11 @@ The first three commands read immutable managed contract data on a background th
 `vm_editor_state` and `vm_automation_call` execute on the Unity main thread. Mutating
 automation contracts require an exact absolute `expected_project_path`; dangerous
 contracts additionally require `confirm=true` inside `arguments_json`.
+
+`vm_job_status` is the intentionally separate background-safe polling boundary for durable
+automation jobs. It reads the latest immutable published snapshot, so package imports,
+compilation, and builds remain observable even while Unity's main thread cannot service
+`vm_automation_call`.
 
 VFX Graph transactions, imports, builds, and other long main-thread operations must be
 submitted with the official CLI's outer `--detach` option, then collected by job ID. The
