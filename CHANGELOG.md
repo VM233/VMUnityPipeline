@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.18] - 2026-08-21
+
+### Added
+
+- Require VM Unity Automation 0.3.20 so CLI callers can atomically move a
+  component between loaded-scene GameObjects while preserving state and
+  scene-local references.
+
 ## [0.4.17] - 2026-08-21
 
 ### Fixed
