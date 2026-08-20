@@ -11,6 +11,13 @@ All notable changes to this package are documented here.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
 
+## [0.2.9] - 2026-08-20
+
+### Fixed
+
+- Consume VM Unity Automation 0.1.7 so bounded CLI package filters preserve the
+  declared owner of framework and project-local tools.
+
 ## [0.2.8] - 2026-08-20
 
 ### Fixed
