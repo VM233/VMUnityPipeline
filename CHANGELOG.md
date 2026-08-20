@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.7] - 2026-08-20
+
+### Changed
+
+- Require VM Unity Automation 0.3.9 so the bounded catalog exposes live
+  Enter Play Mode Options configuration and complete Play Mode error metadata.
+
 ## [0.4.6] - 2026-08-20
 
 ### Fixed
