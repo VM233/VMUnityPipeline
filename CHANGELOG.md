@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.8] - 2026-08-21
+
+### Changed
+
+- Require VM Unity Automation 0.3.10 so package-mutation discovery exposes its
+  stable Edit Mode precondition, immediate mutations reject Play Mode clearly,
+  and durable update/resolve jobs wait without crossing the mutation boundary.
+
 ## [0.4.7] - 2026-08-20
 
 ### Changed

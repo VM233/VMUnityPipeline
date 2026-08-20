@@ -60,3 +60,7 @@ submission contracts attached until they return their own `jobId` and `jobAccess
 then poll that inner job with `vm_job_status`; an outer detached job does not survive a
 domain reload. Use `unity command --detach` plus `unity job wait` only for genuinely long,
 non-durable main-thread calls.
+
+Package mutations require stable Edit Mode. Durable update/resolve jobs wait with the
+`edit-mode-required` blocked reason until Play Mode exits; package add/remove calls fail
+with the typed `edit_mode_required` error before starting Package Manager work.

@@ -85,6 +85,9 @@ Choose the wait boundary from the selected owner contract:
   the durable token is published before the operation reloads Unity, then poll the inner
   job with `vm_job_status`. An outer detached job is intentionally in-memory and can be
   lost at domain reload.
+- Package mutations require stable Edit Mode. Durable update/resolve jobs report
+  `edit-mode-required` and resume after Play Mode exits; add/remove calls return a typed
+  `edit_mode_required` error instead of starting a package request Unity cannot adopt.
 - A genuinely long, non-durable main-thread call such as a VFX Graph transaction uses the
   official CLI's outer `--detach` flow and is collected with `unity job wait`.
 
