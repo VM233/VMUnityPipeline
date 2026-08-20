@@ -16,8 +16,8 @@ Both upstream components are prerelease software. This package pins the Pipeline
 
 Install from an immutable Git revision:
 
-    "com.vm233.unity-pipeline": "https://github.com/VM233/VMUnityPipeline.git#<full-commit-sha>"
-    "com.vm233.unity-automation": "https://github.com/VM233/VMUnityAutomation.git#<full-commit-sha>"
+    "com.vm233.unity-pipeline": "https://github.com/VM233/VMUnityPipeline.git#aa5d8967d9f50cc6ab1bd5493b32cc0d534cb55d"
+    "com.vm233.unity-automation": "https://github.com/VM233/VMUnityAutomation.git#0b2dfa0568b528a3b14863a186b8a0b82f66ba51"
 
 Both entries are direct project dependencies. Pipeline declares the compatible Automation
 SemVer, while the project owns the immutable Git selection. Local file dependencies and
