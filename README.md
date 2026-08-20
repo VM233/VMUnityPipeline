@@ -17,7 +17,7 @@ Both upstream components are prerelease software. This package pins the Pipeline
 Install from an immutable Git revision:
 
     "com.vm233.unity-pipeline": "https://github.com/VM233/VMUnityPipeline.git#e3b2b2130e14923d08de8d8cd838deeb0d8c6321"
-    "com.vm233.unity-automation": "https://github.com/VM233/VMUnityAutomation.git#db5ee3df1a62aca376b0c5d4061ca0b2289c589e"
+    "com.vm233.unity-automation": "https://github.com/VM233/VMUnityAutomation.git#73e8edeea4703814e04396f7a1167a1646460908"
 
 Both entries are direct project dependencies. Pipeline declares the compatible Automation
 SemVer, while the project owns the immutable Git selection. Local file dependencies and
@@ -54,7 +54,7 @@ unity --non-interactive --no-banner shell --protocol ndjson
 recording either an opt-in or opt-out. The Agent must not choose that preference
 for the user. Do not replace this shell with `unity mcp`.
 
-The 0.2.0 official CLI surface contains only five commands:
+The official CLI surface contains only five commands:
 
 - vm_catalog_status
 - vm_catalog_list
