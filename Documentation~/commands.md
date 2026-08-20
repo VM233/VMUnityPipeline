@@ -55,6 +55,8 @@ contracts require `confirm=true` in the JSON object. Request IDs are idempotent 
 current Editor domain, while reload-resumable owners publish durable job state.
 
 `timeout_seconds` is the inner wait bound used by the automation facade. It cannot extend
-the official CLI request timeout around this main-thread command. Submit VFX Graph,
-import, build, and similarly long work with `unity command --detach`, retain the returned
-job ID, and collect the terminal result with `unity job wait --project-path <path> <job-id>`.
+the official CLI request timeout around this main-thread command. Keep reload-resumable
+submission contracts attached until they return their own `jobId` and `jobAccessToken`,
+then poll that inner job with `vm_job_status`; an outer detached job does not survive a
+domain reload. Use `unity command --detach` plus `unity job wait` only for genuinely long,
+non-durable main-thread calls.

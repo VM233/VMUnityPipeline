@@ -78,10 +78,18 @@ automation jobs. It reads the latest immutable published snapshot, so package im
 compilation, and builds remain observable even while Unity's main thread cannot service
 `vm_automation_call`.
 
-VFX Graph transactions, imports, builds, and other long main-thread operations must be
-submitted with the official CLI's outer `--detach` option, then collected by job ID. The
-facade's `timeout_seconds` controls only an inner deferred automation owner; it does not
-extend the CLI request timeout:
+Choose the wait boundary from the selected owner contract:
+
+- A reload-resumable submission such as `asset/refresh` or `packages/update-git` returns
+  its own `jobId` and `jobAccessToken` immediately. Keep this short outer call attached so
+  the durable token is published before the operation reloads Unity, then poll the inner
+  job with `vm_job_status`. An outer detached job is intentionally in-memory and can be
+  lost at domain reload.
+- A genuinely long, non-durable main-thread call such as a VFX Graph transaction uses the
+  official CLI's outer `--detach` flow and is collected with `unity job wait`.
+
+The facade's `timeout_seconds` controls only an inner deferred automation owner; it does
+not extend the CLI request timeout. For a long non-durable call:
 
 ```powershell
 $submission = unity --json --no-banner --non-interactive command --detach `
@@ -91,6 +99,20 @@ $submission = unity --json --no-banner --non-interactive command --detach `
 $jobId = $submission.data.jobId
 unity --json --no-banner --non-interactive job wait `
   --project-path 'D:\UnityProjects\YourProject' $jobId
+```
+
+For a durable submission, omit outer `--detach`, retain the returned inner token, and use
+the background-safe poller:
+
+```powershell
+$submission = unity --json --no-banner --non-interactive command `
+  --project-path 'D:\UnityProjects\YourProject' vm_automation_call -- `
+  --command vm_auto_asset_refresh --arguments_json '{}' `
+  --expected_project_path 'D:\UnityProjects\YourProject' | ConvertFrom-Json
+$inner = $submission.data.result.result
+unity --json --no-banner --non-interactive command `
+  --project-path 'D:\UnityProjects\YourProject' vm_job_status -- `
+  --job_id $inner.jobId --job_access_token $inner.jobAccessToken
 ```
 
 ## Output contract

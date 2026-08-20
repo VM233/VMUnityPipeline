@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.6] - 2026-08-20
+
+### Fixed
+
+- Distinguish reload-resumable inner-job submissions from long non-durable calls in
+  command discovery and documentation. Durable submissions now explicitly stay attached
+  until their job token is published, avoiding loss of the outer in-memory CLI job during
+  a domain reload.
+
 ## [0.4.5] - 2026-08-20
 
 ### Changed

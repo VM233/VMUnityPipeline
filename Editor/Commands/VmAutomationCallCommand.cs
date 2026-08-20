@@ -12,8 +12,9 @@ namespace VMUnityPipeline.Editor.Commands
         public const string CommandName = "vm_automation_call";
         public const string Description =
             "Execute one exact VM automation or project-tool contract through the shared owner. " +
-            "For VFX, import, build, or other long main-thread work, submit the outer Unity CLI " +
-            "command with --detach and collect it with unity job wait.";
+            "Call reload-resumable submission contracts attached so their durable job token is " +
+            "published before a domain reload, then poll it with vm_job_status. Use the outer " +
+            "Unity CLI --detach flow only for long non-durable calls.";
 
         public static readonly VmCommandContract Contract = new VmCommandContract(
             CommandName,
@@ -28,7 +29,7 @@ namespace VMUnityPipeline.Editor.Commands
                     { "request_id", VmJsonSchema.String("Optional idempotent request identifier.") },
                     { "agent_id", VmJsonSchema.String("Optional caller identity for action and job ownership.") },
                     { "timeout_seconds", VmJsonSchema.Integer(
-                        "Inner automation deferred-call wait timeout. This does not extend the outer Unity CLI request timeout; use unity command --detach for long main-thread work.",
+                        "Inner automation deferred-call wait timeout. This does not extend the outer Unity CLI request timeout. Durable submission contracts must remain attached until they return their inner job token; use unity command --detach only for long non-durable calls.",
                         120, 1, 3600) }
                 },
                 new[] { "command" }),
@@ -75,7 +76,7 @@ namespace VMUnityPipeline.Editor.Commands
             [CliArg("agent_id", "Optional caller identity.")]
             string agentId = null,
             [CliArg("timeout_seconds",
-                "Inner deferred-call timeout from 1 through 3600 seconds. Use the outer CLI --detach option for long main-thread work.")]
+                "Inner deferred-call timeout from 1 through 3600 seconds. Keep durable submissions attached until they return a job token; use outer --detach only for long non-durable calls.")]
             int timeoutSeconds = 120)
         {
             if (!VmCliJsonArguments.TryParseObject(
