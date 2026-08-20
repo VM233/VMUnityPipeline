@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.5] - 2026-08-20
+
+### Changed
+
+- Require VM Unity Automation 0.3.8 so prefab component commands can resolve
+  assembly-qualified component type names without ambiguous cross-assembly fallback.
+
 ## [0.4.4] - 2026-08-20
 
 ### Added
