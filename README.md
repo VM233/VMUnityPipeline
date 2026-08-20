@@ -29,6 +29,27 @@ Do not run an unbounded full command listing during normal Agent work.
 3. Call vm_catalog_get for one exact command.
 4. Execute that command.
 
+## Warm agent session
+
+Use one `unity shell --protocol ndjson` process for repeated Agent calls. Set
+`UNITY_PROJECT_PATH` to the exact absolute checkout before starting the process;
+do not select an Editor by project name. A caller writes one JSON request per
+line and reads exactly one correlated response per line.
+
+```powershell
+$env:UNITY_PROJECT_PATH = 'D:\UnityProjects\YourProject'
+$env:UNITY_NO_CONSENT_PROMPT = '1'
+unity --non-interactive --no-banner shell --protocol ndjson
+```
+
+```json
+{"id":"1","argv":["command","vm_catalog_list","--query","editor","--limit","2","--format","json"]}
+```
+
+`UNITY_NO_CONSENT_PROMPT` suppresses the first-run analytics question without
+recording either an opt-in or opt-out. The Agent must not choose that preference
+for the user. Do not replace this shell with `unity mcp`.
+
 The initial 0.1.0 surface contains:
 
 - vm_catalog_status
