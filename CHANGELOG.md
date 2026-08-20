@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.9] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.11 with compile-safe package-mutation
+  descriptions after the stable Edit Mode guidance was merged into the
+  existing catalog cases.
+
 ## [0.4.8] - 2026-08-21
 
 ### Changed
