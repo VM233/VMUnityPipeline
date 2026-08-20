@@ -2,6 +2,16 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.19] - 2026-08-21
+
+### Fixed
+
+- Return the root Automation exception as the stable `command_exception`
+  response instead of leaking an opaque Pipeline HTTP 500, even when the
+  Automation catalog itself cannot initialize.
+- Require VM Unity Automation 0.3.21 with generator-owned route audit
+  fingerprints.
+
 ## [0.4.18] - 2026-08-21
 
 ### Added

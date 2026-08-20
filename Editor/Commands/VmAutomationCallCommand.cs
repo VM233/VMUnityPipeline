@@ -97,12 +97,24 @@ namespace VMUnityPipeline.Editor.Commands
                 return Failure(command, requestId, "argument_conflict", bindingError);
             }
 
-            return await VmAutomationExecutor.ExecuteAsync(
-                command,
-                arguments,
-                requestId,
-                agentId,
-                timeoutSeconds);
+            try
+            {
+                return await VmAutomationExecutor.ExecuteAsync(
+                    command,
+                    arguments,
+                    requestId,
+                    agentId,
+                    timeoutSeconds);
+            }
+            catch (Exception exception)
+            {
+                Exception rootCause = exception.GetBaseException();
+                return Failure(
+                    command,
+                    requestId,
+                    "command_exception",
+                    $"{rootCause.GetType().Name}: {rootCause.Message}");
+            }
         }
 
         private static bool TryApplyExpectedProjectPath(
@@ -154,8 +166,20 @@ namespace VMUnityPipeline.Editor.Commands
                 },
                 { "warnings", Array.Empty<object>() },
                 { "executionTimeMs", 0L },
-                { "catalogRevision", VmAutomationCatalog.CatalogRevision }
+                { "catalogRevision", GetCatalogRevisionOrEmpty() }
             };
+        }
+
+        private static string GetCatalogRevisionOrEmpty()
+        {
+            try
+            {
+                return VmAutomationCatalog.CatalogRevision;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         private static VmJsonSchema CreateOutputSchema()
