@@ -4,12 +4,21 @@ All notable changes to this package are documented here.
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-08-20
+
 ### Added
 
 - Reproducible 406-route VMUnityMCP migration ledger with a separate reviewed-decision source.
 - Bounded snapshot of the 142 Unity-owned Pipeline 0.5.0-exp.1 commands.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
+
+### Fixed
+
+- Require VM Unity Automation 0.2.4 after removing the last eleven retired
+  transport-route metadata entries.
+- Close all 406 migration decisions and validate the final 395 custom, 6 merged,
+  and 5 deleted routes against the immutable Automation source revision.
 
 ## [0.3.2] - 2026-08-20
 

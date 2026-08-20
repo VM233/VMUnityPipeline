@@ -7,6 +7,8 @@ ignores the `Migration~` directory.
 ## Frozen inputs
 
 - VMUnityMCP revision: `3441d9e63486d51e3bdccf872cc1c5bcdd1ac23c`.
+- VMUnityAutomation revision: `bfc612c350fbc83b37fd33b324670bd7dec7f447`
+  (package 0.2.4).
 - Unity CLI: `1.0.0-beta.5`.
 - `com.unity.pipeline`: `0.5.0-exp.1`.
 - Live official command snapshot: 142 Unity-owned commands. The live catalog
@@ -20,7 +22,18 @@ Normal discovery must continue to use a small `query` plus `limit`; this file is
 an offline migration artifact, not a reason to print the full catalog into an
 Agent conversation.
 
-## Current candidate split
+## Reviewed cutover
+
+The historical candidate classification remains in the generated ledger for
+auditability. Every route now also has a reviewed final decision:
+
+| Final disposition | Count | Cutover owner |
+| --- | ---: | --- |
+| `custom_cli` | 395 | The transport-neutral VMUnityAutomation route, discovered progressively and invoked through `vm_automation_call`. |
+| `merge_into` | 6 | Official Unity CLI binding/status plus the five-command VM Pipeline facade. |
+| `delete_redundant` | 5 | Retired transport-only agent, health, autostart, and ping routes with no post-cutover consumer. |
+
+The earlier candidate split was:
 
 | Candidate kind | Count | Meaning |
 | --- | ---: | --- |
@@ -29,8 +42,8 @@ Agent conversation.
 | `retire_candidate` | 5 | The route appears specific to the MCP transport; zero-consumer proof is still required. |
 | `custom_cli_review` | 305 | The capability needs a typed VM Pipeline command unless later review finds a better owner. |
 
-All 406 `finalDisposition` values intentionally remain `pending`. Candidate
-classification is never permission to delete an MCP route.
+Candidate classification did not choose the final owner. The reviewed decision
+file and Automation contract validation do.
 
 ## Files and ownership
 
@@ -38,7 +51,8 @@ classification is never permission to delete an MCP route.
   Unity-owned command snapshot used to validate official targets.
 - `Build-McpRouteLedger.ps1` is the sole mechanical inventory owner. It rejects
   source revision drift, missing official targets, duplicate routes, unknown
-  decisions, and any route count other than 406.
+  decisions, Automation contract drift, any route count other than 406, and
+  any final split other than 395 custom, 6 merged, and 5 deleted routes.
 - `mcp-route-decisions.tsv` is the human-reviewed decision source. Do not edit
   generated final fields directly in the ledger.
 - `mcp-route-ledger.tsv` is generated and must exactly match the script output.
@@ -46,13 +60,19 @@ classification is never permission to delete an MCP route.
 Regenerate from the pinned source checkout:
 
 ```powershell
-./Migration~/Build-McpRouteLedger.ps1 -McpRepository D:\UnityProjects\VMUnityMCP -OutputPath Migration~/mcp-route-ledger.tsv
+./Migration~/Build-McpRouteLedger.ps1 `
+    -McpRepository D:\UnityProjects\VMUnityMCP `
+    -AutomationRepository D:\UnityProjects\VMUnityAutomation `
+    -OutputPath Migration~/mcp-route-ledger.tsv
 ```
 
 Verify without rewriting or printing the ledger:
 
 ```powershell
-./Migration~/Build-McpRouteLedger.ps1 -McpRepository D:\UnityProjects\VMUnityMCP -CheckPath Migration~/mcp-route-ledger.tsv
+./Migration~/Build-McpRouteLedger.ps1 `
+    -McpRepository D:\UnityProjects\VMUnityMCP `
+    -AutomationRepository D:\UnityProjects\VMUnityAutomation `
+    -CheckPath Migration~/mcp-route-ledger.tsv
 ```
 
 Without either path argument the generator returns the same compact count

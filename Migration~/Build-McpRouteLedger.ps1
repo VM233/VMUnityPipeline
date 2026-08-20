@@ -3,6 +3,9 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$McpRepository,
 
+    [Parameter(Mandatory = $true)]
+    [string]$AutomationRepository,
+
     [string]$OfficialSnapshot =
         (Join-Path $PSScriptRoot 'official-pipeline-0.5.0-exp.1-command-snapshot.json'),
 
@@ -13,13 +16,16 @@ param(
 
     [string]$CheckPath,
 
-    [string]$ExpectedMcpRevision = '3441d9e63486d51e3bdccf872cc1c5bcdd1ac23c'
+    [string]$ExpectedMcpRevision = '3441d9e63486d51e3bdccf872cc1c5bcdd1ac23c',
+
+    [string]$ExpectedAutomationRevision = 'bfc612c350fbc83b37fd33b324670bd7dec7f447'
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $resolvedMcpRepository = (Resolve-Path -LiteralPath $McpRepository).Path
+$resolvedAutomationRepository = (Resolve-Path -LiteralPath $AutomationRepository).Path
 $resolvedOfficialSnapshot = (Resolve-Path -LiteralPath $OfficialSnapshot).Path
 $actualMcpRevision = (& git -C $resolvedMcpRepository rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0) {
@@ -27,6 +33,31 @@ if ($LASTEXITCODE -ne 0) {
 }
 if ($actualMcpRevision -ne $ExpectedMcpRevision) {
     throw "VMUnityMCP revision drifted. Expected '$ExpectedMcpRevision', actual '$actualMcpRevision'."
+}
+
+$actualAutomationRevision = (& git -C $resolvedAutomationRepository rev-parse HEAD).Trim()
+if ($LASTEXITCODE -ne 0) {
+    throw "Could not read the VMUnityAutomation revision at '$resolvedAutomationRepository'."
+}
+if ($actualAutomationRevision -ne $ExpectedAutomationRevision) {
+    throw "VMUnityAutomation revision drifted. Expected '$ExpectedAutomationRevision', actual '$actualAutomationRevision'."
+}
+
+$automationContractsPath = Join-Path $resolvedAutomationRepository 'Editor/VmAutomationGeneratedRouteContracts.cs'
+if (-not (Test-Path -LiteralPath $automationContractsPath)) {
+    throw "Automation route contracts are missing at '$automationContractsPath'."
+}
+$automationRoutePattern = [regex]'^\s*case "(?<route>[^"]+)":'
+$automationRoutes = [System.Collections.Generic.HashSet[string]]::new(
+    [System.StringComparer]::Ordinal)
+foreach ($line in Get-Content -LiteralPath $automationContractsPath) {
+    $match = $automationRoutePattern.Match($line)
+    if ($match.Success) {
+        [void]$automationRoutes.Add($match.Groups['route'].Value)
+    }
+}
+if ($automationRoutes.Count -ne 395) {
+    throw "Expected 395 transport-neutral Automation routes, found $($automationRoutes.Count)."
 }
 
 $snapshot = Get-Content -Raw -LiteralPath $resolvedOfficialSnapshot | ConvertFrom-Json
@@ -293,6 +324,34 @@ if (@($orderedRows | Where-Object { [string]::IsNullOrWhiteSpace($_.candidateKin
 $unknownDecision = @($decisionsByRoute.Keys | Where-Object { $_ -notin $orderedRows.sourceRoute })
 if ($unknownDecision.Count -ne 0) {
     throw "Decision references unknown source route '$($unknownDecision[0])'."
+}
+if ($decisionsByRoute.Count -ne $orderedRows.Count) {
+    throw "Every source route requires a reviewed final decision. Found $($decisionsByRoute.Count) of $($orderedRows.Count)."
+}
+
+foreach ($row in $orderedRows) {
+    if ($row.finalDisposition -eq 'custom_cli') {
+        if (-not $automationRoutes.Contains($row.sourceRoute)) {
+            throw "Custom CLI route '$($row.sourceRoute)' is absent from VMUnityAutomation $actualAutomationRevision."
+        }
+        $expectedTarget = 'vm_auto_' + $row.sourceRoute.Replace('/', '_').Replace('-', '_')
+        if ($row.finalTarget -ne $expectedTarget) {
+            throw "Custom CLI route '$($row.sourceRoute)' must target '$expectedTarget', not '$($row.finalTarget)'."
+        }
+    }
+    elseif ($automationRoutes.Contains($row.sourceRoute)) {
+        throw "Automation route '$($row.sourceRoute)' must retain its custom_cli decision."
+    }
+}
+
+$customCliCount = @($orderedRows | Where-Object finalDisposition -eq 'custom_cli').Count
+$mergeCount = @($orderedRows | Where-Object finalDisposition -eq 'merge_into').Count
+$deleteCount = @($orderedRows | Where-Object finalDisposition -eq 'delete_redundant').Count
+if ($customCliCount -ne 395 -or $mergeCount -ne 6 -or $deleteCount -ne 5) {
+    throw "Expected final decisions custom_cli=395, merge_into=6, delete_redundant=5; actual custom_cli=$customCliCount, merge_into=$mergeCount, delete_redundant=$deleteCount."
+}
+if (@($orderedRows | Where-Object finalDisposition -eq 'pending').Count -ne 0) {
+    throw 'Final migration ledger still contains pending decisions.'
 }
 
 $serializedLedger =
