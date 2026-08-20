@@ -4,6 +4,16 @@ All notable changes to this package are documented here.
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-08-20
+
+### Fixed
+
+- Read the live UPM package version for `vm_catalog_status` instead of
+  maintaining a second hand-written version constant that could drift after a
+  release.
+- Run catalog status on the Unity main thread, where Package Manager metadata
+  is authoritative and safe to query.
+
 ## [0.3.3] - 2026-08-20
 
 ### Added

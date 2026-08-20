@@ -43,7 +43,7 @@ namespace VMUnityPipeline.Editor.Commands
         [CliCommand(
             CommandName,
             Description,
-            MainThreadRequired = false,
+            MainThreadRequired = true,
             Tags = new[] { "observability/catalog" })]
         public static VmCatalogStatusResult Execute()
         {
