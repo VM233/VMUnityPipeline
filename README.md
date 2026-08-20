@@ -80,7 +80,8 @@ compilation, and builds remain observable even while Unity's main thread cannot 
 
 Choose the wait boundary from the selected owner contract:
 
-- A reload-resumable submission such as `asset/refresh` or `packages/update-git` returns
+- A reload-resumable submission such as `asset/refresh`, `packages/update-git`,
+  or the `play`/`stop` actions of `editor/play-mode` returns
   its own `jobId` and `jobAccessToken` immediately. Keep this short outer call attached so
   the durable token is published before the operation reloads Unity, then poll the inner
   job with `vm_job_status`. An outer detached job is intentionally in-memory and can be

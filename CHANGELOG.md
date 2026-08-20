@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.12] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.13 so `editor/play-mode` publishes durable
+  play/stop jobs before Domain Reload, exposes their lifecycle through the
+  background-safe poller, and lets `stop` unblock an Edit-Mode-dependent job.
+
 ## [0.4.11] - 2026-08-21
 
 ### Fixed
