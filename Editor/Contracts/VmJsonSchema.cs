@@ -88,7 +88,7 @@ namespace VMUnityPipeline.Editor.Contracts
                 description,
                 new ReadOnlyDictionary<string, VmJsonSchema>(
                     new Dictionary<string, VmJsonSchema>(properties, StringComparer.Ordinal)),
-                Array.AsReadOnly(required ?? Array.Empty<string>()),
+                System.Array.AsReadOnly(required ?? System.Array.Empty<string>()),
                 null,
                 null,
                 null,
@@ -147,7 +147,7 @@ namespace VMUnityPipeline.Editor.Contracts
                 defaultValue,
                 null,
                 null,
-                enumValues == null ? null : Array.AsReadOnly(enumValues),
+                enumValues == null ? null : System.Array.AsReadOnly(enumValues),
                 null);
         }
 
