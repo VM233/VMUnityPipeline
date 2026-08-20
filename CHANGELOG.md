@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.10] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.12 so live Play Mode option changes follow
+  Unity's documented `None` normalization when the feature is disabled and
+  reject contradictory reload-skip requests with actionable guidance.
+
 ## [0.4.9] - 2026-08-21
 
 ### Fixed
