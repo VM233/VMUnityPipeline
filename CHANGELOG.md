@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.15] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.16 so dangerous command schemas expose their
+  required acknowledgement and Play Mode option mutations verify durable
+  `EditorSettings.asset` state instead of only the live Editor value.
+
 ## [0.4.14] - 2026-08-21
 
 ### Fixed
