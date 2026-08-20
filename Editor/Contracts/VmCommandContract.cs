@@ -19,10 +19,10 @@ namespace VMUnityPipeline.Editor.Contracts
         public IReadOnlyList<string> Tags { get; }
 
         [JsonProperty("inputSchema")]
-        public VmJsonSchema InputSchema { get; }
+        public object InputSchema { get; }
 
         [JsonProperty("outputSchema")]
-        public VmJsonSchema OutputSchema { get; }
+        public object OutputSchema { get; }
 
         [JsonProperty("errorCodes")]
         public IReadOnlyList<string> ErrorCodes { get; }
@@ -55,8 +55,8 @@ namespace VMUnityPipeline.Editor.Contracts
             string name,
             string description,
             string[] tags,
-            VmJsonSchema inputSchema,
-            VmJsonSchema outputSchema,
+            object inputSchema,
+            object outputSchema,
             string[] errorCodes,
             string[] sideEffects,
             string[] preconditions,
@@ -65,11 +65,12 @@ namespace VMUnityPipeline.Editor.Contracts
             string transactionAtomicity = "none",
             string transactionIsolation = "none",
             string transactionDurability = "editor-domain",
-            string transactionRollbackKind = "none")
+            string transactionRollbackKind = "none",
+            string package = null)
         {
             Name = name;
             Description = description;
-            Package = VmUnityPipelineInfo.PackageId;
+            Package = package ?? VmUnityPipelineInfo.PackageId;
             Tags = Array.AsReadOnly(tags);
             InputSchema = inputSchema;
             OutputSchema = outputSchema;

@@ -20,7 +20,7 @@ namespace VMUnityPipeline.Editor.Tests
             foreach (var contract in contracts)
             {
                 Assert.That(contract.Description, Is.Not.Empty, contract.Name);
-                Assert.That(contract.Package, Is.EqualTo(VmUnityPipelineInfo.PackageId), contract.Name);
+                Assert.That(contract.Package, Is.Not.Empty, contract.Name);
                 Assert.That(contract.Tags, Is.Not.Empty, contract.Name);
                 Assert.That(contract.InputSchema, Is.Not.Null, contract.Name);
                 Assert.That(contract.OutputSchema, Is.Not.Null, contract.Name);
@@ -45,6 +45,7 @@ namespace VMUnityPipeline.Editor.Tests
         public void CatalogList_IsBoundedAndSupportsTagSubtrees()
         {
             var result = VmCatalogListCommand.Execute(
+                package: VmUnityPipelineInfo.PackageId,
                 tag: "observability",
                 offset: 1,
                 limit: 1);
@@ -53,6 +54,20 @@ namespace VMUnityPipeline.Editor.Tests
             Assert.That(result.Total, Is.EqualTo(3));
             Assert.That(result.Commands, Has.Count.EqualTo(1));
             Assert.That(result.Commands[0].Name, Is.EqualTo(VmCatalogListCommand.CommandName));
+        }
+
+        [Test]
+        public void Contracts_ExposeOneFacadeInsteadOfRegisteringEveryAutomationRoute()
+        {
+            Assert.That(
+                VmCommandContractCatalog.Contracts.Count(contract =>
+                    contract.Package == VmUnityPipelineInfo.PackageId &&
+                    contract.Name == VmAutomationCallCommand.CommandName),
+                Is.EqualTo(1));
+            Assert.That(
+                VmCommandContractCatalog.Contracts.Count(contract =>
+                    contract.Package == "com.vm233.unity-automation"),
+                Is.GreaterThan(300));
         }
 
         [TestCase(0)]

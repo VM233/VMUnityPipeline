@@ -11,6 +11,16 @@ All notable changes to this package are documented here.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
 
+## [0.2.0] - 2026-08-20
+
+### Added
+
+- One `vm_automation_call` official CLI facade for the transport-neutral automation core.
+- Bounded discovery of built-in automation and reflected project-tool contracts without
+  registering hundreds of CLI commands.
+- Full-fidelity owner input/output schemas and a SHA-256 revision of the joined catalog.
+- Exact project binding, caller/request identity, timeout, and JSON argument forwarding.
+
 ## [0.1.0] - 2026-08-20
 
 ### Added

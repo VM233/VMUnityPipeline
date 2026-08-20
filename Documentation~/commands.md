@@ -6,7 +6,9 @@ Returns the package version, contract version, catalog revision, and number of V
 
 ## vm_catalog_list
 
-Returns compact command summaries. Optional query, package, and tag filters combine with AND. Results are ordinally sorted by command name before filtering. Offset must be non-negative; limit must be between 1 and 50.
+Returns compact command summaries. Optional query, package, tag, and side-effect filters
+combine with AND. Results are ordinally sorted by command name before filtering. Offset
+must be non-negative; limit must be between 1 and 50.
 
 ## vm_catalog_get
 
@@ -35,3 +37,11 @@ isChangingPlayMode is derived from Unity's two authoritative EditorApplication f
     isPlayingOrWillChangePlaymode != isPlaying
 
 The command is main-thread-only. It does not enter or exit Play Mode and does not modify project state.
+
+## vm_automation_call
+
+Executes one exact `vm_auto_` or `vm_pt_` contract, or one exact automation route, through
+the transport-neutral owner. `arguments_json` must be one JSON object. Mutations require
+the connected checkout's exact absolute path via `expected_project_path`; dangerous
+contracts require `confirm=true` in the JSON object. Request IDs are idempotent inside the
+current Editor domain, while reload-resumable owners publish durable job state.

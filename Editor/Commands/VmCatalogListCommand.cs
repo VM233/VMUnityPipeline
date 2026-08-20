@@ -23,6 +23,7 @@ namespace VMUnityPipeline.Editor.Commands
                     { "query", VmJsonSchema.String("Case-insensitive substring matched against name, description, package, and tags.") },
                     { "package", VmJsonSchema.String("Exact package identifier filter.") },
                     { "tag", VmJsonSchema.String("Exact tag or tag subtree filter.") },
+                    { "side_effect", VmJsonSchema.String("Exact declared side-effect filter.") },
                     { "offset", VmJsonSchema.Integer("Number of matching commands to skip.", 0, 0) },
                     { "limit", VmJsonSchema.Integer("Maximum summaries to return.", DefaultLimit, 1, MaximumLimit) }
                 }),
@@ -66,12 +67,14 @@ namespace VMUnityPipeline.Editor.Commands
             [CliArg("query", "Optional case-insensitive text query.")] string query = null,
             [CliArg("package", "Optional exact package identifier.")] string package = null,
             [CliArg("tag", "Optional exact tag or tag subtree.")] string tag = null,
+            [CliArg("side_effect", "Optional exact declared side effect.")] string sideEffect = null,
             [CliArg("offset", "Number of matching contracts to skip.")] int offset = 0,
             [CliArg("limit", "Maximum summaries to return, from 1 through 50.")] int limit = DefaultLimit)
         {
             if ((query != null && query.Length == 0) ||
                 (package != null && package.Length == 0) ||
-                (tag != null && tag.Length == 0))
+                (tag != null && tag.Length == 0) ||
+                (sideEffect != null && sideEffect.Length == 0))
             {
                 return VmCatalogListResult.Failure(
                     "invalid_filter",
@@ -105,7 +108,7 @@ namespace VMUnityPipeline.Editor.Commands
 
             foreach (var contract in VmCommandContractCatalog.Contracts)
             {
-                if (!Matches(contract, query, package, tag, tagPrefix))
+                if (!Matches(contract, query, package, tag, tagPrefix, sideEffect))
                 {
                     continue;
                 }
@@ -126,7 +129,8 @@ namespace VMUnityPipeline.Editor.Commands
             string query,
             string package,
             string tag,
-            string tagPrefix)
+            string tagPrefix,
+            string sideEffect)
         {
             if (package != null &&
                 !string.Equals(contract.Package, package, StringComparison.OrdinalIgnoreCase))
@@ -138,6 +142,9 @@ namespace VMUnityPipeline.Editor.Commands
             {
                 return false;
             }
+
+            if (sideEffect != null && !MatchesSideEffect(contract, sideEffect))
+                return false;
 
             return query == null || MatchesQuery(contract, query);
         }
@@ -171,6 +178,24 @@ namespace VMUnityPipeline.Editor.Commands
             {
                 if (string.Equals(contractTag, tag, StringComparison.OrdinalIgnoreCase) ||
                     contractTag.StartsWith(tagPrefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool MatchesSideEffect(
+            VmCommandContract contract,
+            string sideEffect)
+        {
+            foreach (string declaredSideEffect in contract.SideEffects)
+            {
+                if (string.Equals(
+                        declaredSideEffect,
+                        sideEffect,
+                        StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }

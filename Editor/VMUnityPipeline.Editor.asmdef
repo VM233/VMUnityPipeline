@@ -2,7 +2,8 @@
   "name": "VMUnityPipeline.Editor",
   "rootNamespace": "VMUnityPipeline.Editor",
   "references": [
-    "Unity.Pipeline"
+    "Unity.Pipeline",
+    "VMUnityAutomation.Editor"
   ],
   "includePlatforms": [
     "Editor"

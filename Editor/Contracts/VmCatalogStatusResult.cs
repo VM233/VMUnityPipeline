@@ -23,7 +23,7 @@ namespace VMUnityPipeline.Editor.Contracts
             : base(true)
         {
             ContractVersion = VmUnityPipelineInfo.ContractVersion;
-            CatalogRevision = VmUnityPipelineInfo.CatalogRevision;
+            CatalogRevision = VmCommandContractCatalog.CatalogRevision;
             PackageId = VmUnityPipelineInfo.PackageId;
             PackageVersion = VmUnityPipelineInfo.PackageVersion;
             CommandCount = commandCount;

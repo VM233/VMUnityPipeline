@@ -71,7 +71,7 @@ namespace VMUnityPipeline.Editor.Contracts
             return VmJsonSchema.Object(
                 new Dictionary<string, VmJsonSchema>
                 {
-                    { "type", VmJsonSchema.String("JSON value type.") },
+                    { "type", VmJsonSchema.Any("JSON value type or allowed type array.") },
                     { "$ref", VmJsonSchema.String("Local schema reference.") },
                     {
                         "$defs",
@@ -93,9 +93,10 @@ namespace VMUnityPipeline.Editor.Contracts
                     { "default", VmJsonSchema.Any("Default JSON value.") },
                     { "minimum", VmJsonSchema.Number("Inclusive numeric minimum.") },
                     { "maximum", VmJsonSchema.Number("Inclusive numeric maximum.") },
-                    { "enum", VmJsonSchema.Array(VmJsonSchema.String("Allowed string value.")) },
+                    { "enum", VmJsonSchema.Array(VmJsonSchema.Any("Allowed JSON value.")) },
                     { "additionalProperties", VmJsonSchema.Any("Boolean or schema-valued additional-properties rule.") }
-                });
+                },
+                additionalProperties: VmJsonSchema.Any("Additional JSON Schema keyword."));
         }
     }
 }

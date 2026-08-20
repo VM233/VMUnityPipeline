@@ -25,9 +25,10 @@ Local file dependencies and embedded package overrides are not supported.
 Do not run an unbounded full command listing during normal Agent work.
 
 1. Run a compact official query with a small limit.
-2. Call vm_catalog_list only when searching VM extension contracts.
+2. Call vm_catalog_list only when searching VM extension contracts; keep its page small.
 3. Call vm_catalog_get for one exact command.
-4. Execute that command.
+4. Execute direct Pipeline commands normally, or pass one discovered `vm_auto_` / `vm_pt_`
+   contract to `vm_automation_call`.
 
 ## Warm agent session
 
@@ -50,24 +51,37 @@ unity --non-interactive --no-banner shell --protocol ndjson
 recording either an opt-in or opt-out. The Agent must not choose that preference
 for the user. Do not replace this shell with `unity mcp`.
 
-The initial 0.1.0 surface contains:
+The 0.2.0 official CLI surface contains only five commands:
 
 - vm_catalog_status
 - vm_catalog_list
 - vm_catalog_get
 - vm_editor_state
+- vm_automation_call
 
-The first three commands read immutable managed contract data on a background thread. vm_editor_state executes on the Unity main thread and returns explicit play, pause, transition, compilation, asset-update, scene, platform, Unity-version, and absolute-project-path facts.
+The automation catalog can contain hundreds of contracts without registering hundreds of
+official CLI commands. `vm_catalog_list` remains capped at 50 and defaults to 10;
+`vm_catalog_get` retrieves one full schema. `vm_automation_call` accepts the selected
+identifier plus one JSON object and delegates to the transport-neutral automation owner.
+
+The first three commands read immutable managed contract data on a background thread.
+`vm_editor_state` and `vm_automation_call` execute on the Unity main thread. Mutating
+automation contracts require an exact absolute `expected_project_path`; dangerous
+contracts additionally require `confirm=true` inside `arguments_json`.
 
 ## Output contract
 
-Domain failures are returned inside the command result with ok=false and a stable errorCode. Transport, binding, readiness, parameter-binding, and unexpected execution failures remain owned by the official Pipeline envelope.
+Domain failures are returned inside the command result with `ok=false` and a stable error
+code. Transport, CLI binding, readiness, parameter binding, and unexpected Pipeline
+execution failures remain owned by the official Pipeline envelope.
 
 Catalog list output is always sorted, paginated, and capped at 50 entries. The default page size is 10.
 
 ## Development
 
-The bootstrap catalog is an explicit immutable list of four commands. Before bulk route migration, a generator must become the owner of the catalog list and contract revision so hundreds of command registrations cannot drift.
+The catalog joins five explicit Pipeline contracts with the bounded, deterministic
+`VMUnityAutomation` catalog. Its revision is a SHA-256 digest of the full sorted contract
+set. Automation routes are not expanded into `[CliCommand]` registrations.
 
 Package code is compiled through a supported consuming project after publishing an immutable Git revision. Do not add a local UPM dependency for development.
 
