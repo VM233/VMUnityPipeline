@@ -11,6 +11,13 @@ All notable changes to this package are documented here.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
 
+## [0.2.3] - 2026-08-20
+
+### Added
+
+- Stable `catalog_initialization_failed` status output with the root catalog error instead
+  of leaking a type-initializer exception through the official Pipeline envelope.
+
 ## [0.2.2] - 2026-08-20
 
 ### Changed

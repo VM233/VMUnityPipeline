@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Pipeline.Commands;
 using VMUnityPipeline.Editor.Contracts;
@@ -34,7 +35,7 @@ namespace VMUnityPipeline.Editor.Commands
                     "packageVersion",
                     "commandCount"
                 }),
-            new string[0],
+            new[] { "catalog_initialization_failed" },
             new[] { "read" },
             new[] { "pipeline_connected" },
             "Returns the immutable catalog identity for the current Domain.");
@@ -46,7 +47,16 @@ namespace VMUnityPipeline.Editor.Commands
             Tags = new[] { "observability/catalog" })]
         public static VmCatalogStatusResult Execute()
         {
-            return new VmCatalogStatusResult(VmCommandContractCatalog.Contracts.Count);
+            try
+            {
+                return VmCatalogStatusResult.Success(
+                    VmCommandContractCatalog.Contracts.Count);
+            }
+            catch (Exception exception)
+            {
+                return VmCatalogStatusResult.Failure(
+                    exception.GetBaseException().Message);
+            }
         }
     }
 }
