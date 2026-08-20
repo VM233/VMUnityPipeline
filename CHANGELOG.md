@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.3] - 2026-08-20
+
+### Fixed
+
+- Require VM Unity Automation 0.3.6 so durable Git package updates recover from a
+  transient Package Manager cancellation and report actionable failure details.
+
 ## [0.4.2] - 2026-08-20
 
 ### Changed
