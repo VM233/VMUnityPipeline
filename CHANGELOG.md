@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.20] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.22 so `component/move` publishes its actual
+  loaded-scene Undo transaction and verification evidence.
+
 ## [0.4.19] - 2026-08-21
 
 ### Fixed
