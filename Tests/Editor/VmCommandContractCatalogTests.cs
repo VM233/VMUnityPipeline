@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using VMUnityPipeline.Editor.Commands;
@@ -68,6 +69,20 @@ namespace VMUnityPipeline.Editor.Tests
                 VmCommandContractCatalog.Contracts.Count(contract =>
                     contract.Package == "com.vm233.unity-automation"),
                 Is.GreaterThan(300));
+        }
+
+        [TestCase("com.example.project-tools", "com.example.project-tools")]
+        [TestCase(null, "com.vm233.unity-automation")]
+        public void AutomationAdapter_PreservesDeclaredOwnerPackage(
+            string declaredPackage, string expectedPackage)
+        {
+            var tool = new Dictionary<string, object>();
+            if (declaredPackage != null)
+                tool["package"] = declaredPackage;
+
+            Assert.That(
+                VmAutomationContractAdapter.ResolvePackage(tool),
+                Is.EqualTo(expectedPackage));
         }
 
         [TestCase(0)]

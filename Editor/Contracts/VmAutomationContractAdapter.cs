@@ -87,7 +87,12 @@ namespace VMUnityPipeline.Editor.Contracts
                 ReadString(transaction, "isolation") ?? "none",
                 ReadString(transaction, "durability") ?? "editor-domain",
                 ReadString(transaction, "rollbackKind") ?? "none",
-                AutomationPackageId);
+                ResolvePackage(tool));
+        }
+
+        internal static string ResolvePackage(IDictionary<string, object> tool)
+        {
+            return ReadString(tool, "package") ?? AutomationPackageId;
         }
 
         private static object ReadRequiredValue(
