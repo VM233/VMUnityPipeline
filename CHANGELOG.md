@@ -11,6 +11,13 @@ All notable changes to this package are documented here.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
 
+## [0.2.5] - 2026-08-20
+
+### Changed
+
+- Require VM Unity Automation 0.1.4 so joined schemas use the transport-neutral
+  `x-vmAutomationContract` data-product keyword.
+
 ## [0.2.4] - 2026-08-20
 
 ### Changed
