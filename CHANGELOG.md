@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.16] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.17 so already-satisfied Play Mode option
+  requests do not rewrite or migrate `EditorSettings.asset`.
+
 ## [0.4.15] - 2026-08-21
 
 ### Fixed
