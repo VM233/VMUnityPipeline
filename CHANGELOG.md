@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.14] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.15 so a reached Play/Stop target can finish
+  stable-frame confirmation even when project initialization outlasted the
+  pre-transition wall-clock timeout during Domain Reload.
+
 ## [0.4.13] - 2026-08-21
 
 ### Fixed
