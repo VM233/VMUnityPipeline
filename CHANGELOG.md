@@ -2,7 +2,17 @@
 
 All notable changes to this package are documented here.
 
-## [Unreleased]
+## [0.4.0] - 2026-08-20
+
+### Changed
+
+- Require VM Unity Automation 0.3.0 and its transport-neutral public schema and
+  debug-result names.
+
+### Removed
+
+- Delete the completed offline cutover ledger, generator, snapshots, and all
+  remaining retired-transport names from current package documentation.
 
 ## [0.3.4] - 2026-08-20
 
@@ -18,7 +28,7 @@ All notable changes to this package are documented here.
 
 ### Added
 
-- Reproducible 406-route VMUnityMCP migration ledger with a separate reviewed-decision source.
+- Reproducible 406-route predecessor migration ledger with a separate reviewed-decision source.
 - Bounded snapshot of the 142 Unity-owned Pipeline 0.5.0-exp.1 commands.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
@@ -49,7 +59,7 @@ All notable changes to this package are documented here.
 ### Changed
 
 - Require VM Unity Automation 0.2.0 and its transport-neutral public API after
-  removing the retired MCP route and type surface.
+  removing the retired route and type surface.
 
 ## [0.2.9] - 2026-08-20
 

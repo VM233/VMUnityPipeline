@@ -2,7 +2,7 @@
 
 VM Unity Pipeline extends Unity Technologies' official Unity CLI and com.unity.pipeline package with contracts needed by token-efficient, project-safe automation.
 
-The package does not run an MCP server and does not add a second Editor transport. Commands are discovered and executed by the official Pipeline server.
+The package adds no second Editor transport. Commands are discovered and executed by the official Pipeline server.
 
 ## Requirements
 
@@ -16,8 +16,8 @@ Both upstream components are prerelease software. This package pins the Pipeline
 
 Install from an immutable Git revision:
 
-    "com.vm233.unity-pipeline": "https://github.com/VM233/VMUnityPipeline.git#9549a16300e6b8b4a19b62b781e160b890c477d8"
-    "com.vm233.unity-automation": "https://github.com/VM233/VMUnityAutomation.git#bfc612c350fbc83b37fd33b324670bd7dec7f447"
+    "com.vm233.unity-pipeline": "https://github.com/VM233/VMUnityPipeline.git#<full-commit-sha>"
+    "com.vm233.unity-automation": "https://github.com/VM233/VMUnityAutomation.git#<full-commit-sha>"
 
 Both entries are direct project dependencies. Pipeline declares the compatible Automation
 SemVer, while the project owns the immutable Git selection. Local file dependencies and
@@ -52,7 +52,7 @@ unity --non-interactive --no-banner shell --protocol ndjson
 
 `UNITY_NO_CONSENT_PROMPT` suppresses the first-run analytics question without
 recording either an opt-in or opt-out. The Agent must not choose that preference
-for the user. Do not replace this shell with `unity mcp`.
+for the user. Do not replace this shell with an alternate transport.
 
 The official CLI surface contains only five commands:
 
@@ -87,7 +87,3 @@ The catalog joins five explicit Pipeline contracts with the bounded, determinist
 set. Automation routes are not expanded into `[CliCommand]` registrations.
 
 Package code is compiled through a supported consuming project after publishing an immutable Git revision. Do not add a local UPM dependency for development.
-
-The offline `Migration~` directory tracks the MCP-to-CLI route inventory and
-reviewed cutover decisions. Its generator returns only compact counts by
-default; full catalogs remain file artifacts rather than normal Agent output.
