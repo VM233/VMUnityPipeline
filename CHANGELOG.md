@@ -11,6 +11,12 @@ All notable changes to this package are documented here.
 - Compact ledger generator that rejects source drift and never prints the full ledger by default.
 - Documented the verified warm NDJSON Agent session and consent-neutral startup.
 
+## [0.2.4] - 2026-08-20
+
+### Changed
+
+- Require the thread-neutral Automation catalog identity contract.
+
 ## [0.2.3] - 2026-08-20
 
 ### Added
