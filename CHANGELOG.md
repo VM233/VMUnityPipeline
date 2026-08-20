@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.1] - 2026-08-20
+
+### Fixed
+
+- Require VM Unity Automation 0.3.1 so facade request identity remains outside
+  strict owner argument objects unless the selected contract declares durable
+  idempotency support.
+
 ## [0.4.0] - 2026-08-20
 
 ### Changed
