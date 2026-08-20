@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.17] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.19 so catalog error metadata distinguishes
+  read-only tools from project-bound mutations and fully describes dynamic-code
+  failures.
+
 ## [0.4.16] - 2026-08-21
 
 ### Fixed
