@@ -9,7 +9,9 @@ namespace VMUnityPipeline.Editor.Commands
     {
         public const string CommandName = "vm_job_status";
         public const string Description =
-            "Read one durable VM automation job snapshot without entering Unity's main-thread queue.";
+            "Read one durable VM automation job snapshot without entering Unity's main-thread queue. " +
+            "The first authorized read acknowledges token delivery and releases a newly admitted " +
+            "workspace job for main-thread execution.";
 
         public static readonly VmCommandContract Contract = new VmCommandContract(
             CommandName,
@@ -31,9 +33,10 @@ namespace VMUnityPipeline.Editor.Commands
                 "job_type_mismatch",
                 "job_owner_mismatch",
             },
-            new[] { "read" },
+            new[] { "read", "acknowledgesDurableWorkspaceJob" },
             new[] { "pipeline_connected" },
-            "Returns the latest already-published snapshot without waiting for the Unity main thread.",
+            "Returns the latest already-published snapshot without waiting for the Unity main thread; " +
+            "for a queued workspace job, the authorized read durably publishes its execution acknowledgement.",
             transactionDurability: "published-job-snapshot");
 
         [CliCommand(

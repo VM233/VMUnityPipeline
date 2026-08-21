@@ -12,8 +12,9 @@ namespace VMUnityPipeline.Editor.Commands
         public const string CommandName = "vm_automation_call";
         public const string Description =
             "Execute one exact VM automation or project-tool contract through the shared owner. " +
-            "Call reload-resumable submission contracts attached so their durable job token is " +
-            "published before a domain reload, then poll it with vm_job_status. Use the outer " +
+            "Call reload-resumable submission contracts attached so their durable job token reaches " +
+            "the client, then poll it with vm_job_status; the first authorized poll releases the " +
+            "inner workspace job for execution. Use the outer " +
             "Unity CLI --detach flow only for long non-durable calls.";
 
         public static readonly VmCommandContract Contract = new VmCommandContract(
@@ -29,7 +30,7 @@ namespace VMUnityPipeline.Editor.Commands
                     { "request_id", VmJsonSchema.String("Optional idempotent request identifier.") },
                     { "agent_id", VmJsonSchema.String("Optional caller identity for action and job ownership.") },
                     { "timeout_seconds", VmJsonSchema.Integer(
-                        "Inner automation deferred-call wait timeout. This does not extend the outer Unity CLI request timeout. Durable submission contracts must remain attached until they return their inner job token; use unity command --detach only for long non-durable calls.",
+                        "Inner automation deferred-call wait timeout. This does not extend the outer Unity CLI request timeout. Durable submission contracts must remain attached until they return their inner job token, then the first vm_job_status poll acknowledges delivery and releases execution; use unity command --detach only for long non-durable calls.",
                         120, 1, 3600) }
                 },
                 new[] { "command" }),
@@ -54,7 +55,8 @@ namespace VMUnityPipeline.Editor.Commands
             new[] { "pipeline_connected", "editor_connected" },
             "Returns the selected owner response or one stable domain error. " +
             "A response containing an inner jobId is durable admission evidence; " +
-            "poll it with vm_job_status until terminal.",
+            "the first authorized vm_job_status poll releases a queued workspace job, " +
+            "and subsequent polls observe it until terminal.",
             transactionScope: "delegated",
             transactionAtomicity: "declared_by_selected_command",
             transactionIsolation: "request_and_owner",
@@ -78,7 +80,7 @@ namespace VMUnityPipeline.Editor.Commands
             [CliArg("agent_id", "Optional caller identity.")]
             string agentId = null,
             [CliArg("timeout_seconds",
-                "Inner deferred-call timeout from 1 through 3600 seconds. Keep durable submissions attached until they return a job token; use outer --detach only for long non-durable calls.")]
+                "Inner deferred-call timeout from 1 through 3600 seconds. Keep durable submissions attached until they return a job token, then poll once to release execution; use outer --detach only for long non-durable calls.")]
             int timeoutSeconds = 120)
         {
             if (!VmCliJsonArguments.TryParseObject(

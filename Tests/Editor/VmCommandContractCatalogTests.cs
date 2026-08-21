@@ -71,6 +71,19 @@ namespace VMUnityPipeline.Editor.Tests
                 Is.GreaterThan(300));
         }
 
+        [Test]
+        public void JobStatus_DeclaresWorkspaceAdmissionAcknowledgement()
+        {
+            VmCommandContract contract = VmJobStatusCommand.Contract;
+
+            Assert.That(contract.SideEffects,
+                Does.Contain("acknowledgesDurableWorkspaceJob"));
+            Assert.That(contract.Description,
+                Does.Contain("first authorized read"));
+            Assert.That(contract.Completion,
+                Does.Contain("execution acknowledgement"));
+        }
+
         [TestCase("com.example.project-tools", "com.example.project-tools")]
         [TestCase(null, "com.vm233.unity-automation")]
         public void AutomationAdapter_PreservesDeclaredOwnerPackage(

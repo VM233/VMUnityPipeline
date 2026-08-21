@@ -44,7 +44,9 @@ Reads the latest immutable published snapshot for one durable VM automation job 
 `job_id` or `request_id`. Supply the returned `job_access_token` when the original caller
 identity is unavailable. This command runs off the Unity main thread, so it remains usable
 while package import, compilation, build, or another long Editor operation is blocking the
-main-thread automation facade.
+main-thread automation facade. For a newly admitted workspace job, the first authorized
+read durably acknowledges that its token reached the client and releases it for main-thread
+execution; subsequent reads are observational.
 
 ## vm_automation_call
 
@@ -57,9 +59,10 @@ current Editor domain, while reload-resumable owners publish durable job state.
 `timeout_seconds` is the inner wait bound used by the automation facade. It cannot extend
 the official CLI request timeout around this main-thread command. Keep reload-resumable
 submission contracts attached until they return their own `jobId` and `jobAccessToken`,
-then poll that inner job with `vm_job_status`; an outer detached job does not survive a
-domain reload. Use `unity command --detach` plus `unity job wait` only for genuinely long,
-non-durable main-thread calls.
+then call `vm_job_status` once to release the admission-queued workspace job and continue
+polling it until terminal. An outer detached job does not survive a domain reload. Use
+`unity command --detach` plus `unity job wait` only for genuinely long, non-durable
+main-thread calls.
 
 Package mutations require stable Edit Mode. Durable update/resolve jobs wait with the
 `edit-mode-required` blocked reason until Play Mode exits; package add/remove calls fail

@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.22] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.35 and document the durable admission
+  handshake: reload-resumable workspace jobs stay queued until the first
+  authorized `vm_job_status` read acknowledges that their token reached the
+  client. This prevents Domain Reload from dropping the submission response.
+
 ## [0.4.21] - 2026-08-21
 
 ### Fixed

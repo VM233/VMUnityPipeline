@@ -76,16 +76,19 @@ contracts additionally require `confirm=true` inside `arguments_json`.
 `vm_job_status` is the intentionally separate background-safe polling boundary for durable
 automation jobs. It reads the latest immutable published snapshot, so package imports,
 compilation, and builds remain observable even while Unity's main thread cannot service
-`vm_automation_call`.
+`vm_automation_call`. For a newly admitted workspace job, the first authorized status
+read also publishes a durable client-adoption acknowledgement. The main-thread runner
+must adopt that acknowledgement before it can mutate state or trigger Domain Reload.
 
 Choose the wait boundary from the selected owner contract:
 
 - A reload-resumable submission such as `asset/refresh`, `packages/update-git`,
   or the `play`/`stop` actions of `editor/play-mode` returns
   its own `jobId` and `jobAccessToken` immediately. Keep this short outer call attached so
-  the durable token is published before the operation reloads Unity, then poll the inner
-  job with `vm_job_status`. An outer detached job is intentionally in-memory and can be
-  lost at domain reload.
+  the durable token reaches the client, then poll the inner job with `vm_job_status`.
+  That first authorized poll releases the admission-queued workspace job; continue polling
+  until terminal. An outer detached job is intentionally in-memory and can be lost at
+  domain reload.
 - Package mutations require stable Edit Mode. Durable update/resolve jobs report
   `edit-mode-required` and resume after Play Mode exits; add/remove calls return a typed
   `edit_mode_required` error instead of starting a package request Unity cannot adopt.
@@ -106,7 +109,8 @@ unity --json --no-banner --non-interactive job wait `
 ```
 
 For a durable submission, omit outer `--detach`, retain the returned inner token, and use
-the background-safe poller:
+the background-safe poller. Its first authorized call acknowledges token delivery and
+releases workspace execution:
 
 ```powershell
 $submission = unity --json --no-banner --non-interactive command `
