@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.24] - 2026-08-22
+
+### Changed
+
+- Require VM Unity Automation 0.3.37 so VFX Graph contracts publish their
+  route-specific stable domain error codes through the CLI catalog.
+
 ## [0.4.23] - 2026-08-22
 
 ### Changed
