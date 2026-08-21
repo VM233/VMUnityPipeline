@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.23] - 2026-08-22
+
+### Changed
+
+- Require VM Unity Automation 0.3.36 so VFX Graph data-object simulation
+  spaces are inspectable and writable through the atomic Automation contract.
+
 ## [0.4.22] - 2026-08-21
 
 ### Fixed
