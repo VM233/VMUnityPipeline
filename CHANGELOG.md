@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.21] - 2026-08-21
+
+### Fixed
+
+- Require VM Unity Automation 0.3.23 so VFX Graph Block Activation Slots are
+  exposed through the shared `$activation` selector for inspection and
+  authoring.
+
 ## [0.4.20] - 2026-08-21
 
 ### Fixed
