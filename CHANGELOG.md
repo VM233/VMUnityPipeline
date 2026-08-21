@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.25] - 2026-08-22
+
+### Changed
+
+- Require VM Unity Automation 0.3.38 so VFX data-object transactions use the
+  context-owned invalidation and subasset-aware publication path.
+
 ## [0.4.24] - 2026-08-22
 
 ### Changed

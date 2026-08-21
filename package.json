@@ -1,6 +1,6 @@
 {
   "name": "com.vm233.unity-pipeline",
-  "version": "0.4.24",
+  "version": "0.4.25",
   "displayName": "VM Unity Pipeline",
   "description": "Token-efficient Unity CLI Pipeline extensions with rich command contracts and precise Editor state.",
   "unity": "6000.0",
@@ -15,7 +15,7 @@
   "license": "MIT",
   "type": "tool",
   "dependencies": {
-    "com.vm233.unity-automation": "0.3.37",
+    "com.vm233.unity-automation": "0.3.38",
     "com.unity.pipeline": "0.5.0-exp.1",
     "com.unity.nuget.newtonsoft-json": "3.0.2"
   },
