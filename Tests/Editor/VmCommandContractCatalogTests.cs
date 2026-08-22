@@ -32,25 +32,6 @@ namespace VMUnityPipeline.Editor.Tests
         }
 
         [Test]
-        public void Catalog_RebuildsAfterInvalidation()
-        {
-            IReadOnlyList<VmCommandContract> before =
-                VmCommandContractCatalog.Contracts;
-            string revisionBefore =
-                VmCommandContractCatalog.CatalogRevision;
-
-            VmCommandContractCatalog.Invalidate();
-
-            IReadOnlyList<VmCommandContract> after =
-                VmCommandContractCatalog.Contracts;
-            Assert.That(after, Is.Not.SameAs(before));
-            Assert.That(VmCommandContractCatalog.CatalogRevision,
-                Is.EqualTo(revisionBefore));
-            Assert.That(after.Select(contract => contract.Name),
-                Is.EqualTo(before.Select(contract => contract.Name)));
-        }
-
-        [Test]
         public void CatalogGet_UnknownName_ReturnsStableDomainError()
         {
             var result = VmCatalogGetCommand.Execute("missing_vm_command");

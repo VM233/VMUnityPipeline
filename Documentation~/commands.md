@@ -2,7 +2,7 @@
 
 ## vm_catalog_status
 
-Returns the package version, contract version, catalog revision, and number of VM extension commands in the current Domain. The merged view is rebuilt on the next read whenever Automation publishes a different revision after an assembly reload.
+Returns the package version, contract version, catalog revision, and number of VM extension commands in the current Domain.
 
 ## vm_catalog_list
 
@@ -55,6 +55,11 @@ the transport-neutral owner. `arguments_json` must be one JSON object. Mutations
 the connected checkout's exact absolute path via `expected_project_path`; dangerous
 contracts require `confirm=true` in the JSON object. Request IDs are idempotent inside the
 current Editor domain, while reload-resumable owners publish durable job state.
+
+If the selected identifier names a project tool that was discovered but has an
+invalid or duplicate registration, the command returns `invalid_project_tool`
+or `duplicate_project_tool` with the exact registration source and validation
+error instead of `command_not_found`.
 
 `timeout_seconds` is the inner wait bound used by the automation facade. It cannot extend
 the official CLI request timeout around this main-thread command. Keep reload-resumable

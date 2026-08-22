@@ -2,6 +2,16 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.28] - 2026-08-22
+
+### Fixed
+
+- Require VM Unity Automation 0.3.41 so `vm_automation_call` reports a
+  discovered project's invalid or duplicate tool registration and its exact
+  validation error instead of returning `command_not_found`.
+- Withdraw the 0.4.27 dynamic-catalog workaround after direct registry
+  evidence showed the affected tool was already discovered and invalid.
+
 ## [0.4.27] - 2026-08-22
 
 ### Fixed

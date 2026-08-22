@@ -5,73 +5,17 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
-using VMUnityAutomation.Editor;
 using VMUnityPipeline.Editor.Commands;
 
 namespace VMUnityPipeline.Editor.Contracts
 {
     internal static class VmCommandContractCatalog
     {
-        private static readonly object s_Sync = new object();
-        private static IReadOnlyList<VmCommandContract> s_Contracts;
-        private static IReadOnlyDictionary<string, VmCommandContract> s_ContractsByName;
-        private static string s_CatalogRevision;
-        private static string s_AutomationCatalogRevision;
+        private static readonly IReadOnlyList<VmCommandContract> s_Contracts;
+        private static readonly IReadOnlyDictionary<string, VmCommandContract> s_ContractsByName;
+        private static readonly string s_CatalogRevision;
 
-        public static IReadOnlyList<VmCommandContract> Contracts
-        {
-            get
-            {
-                EnsureCurrent();
-                return s_Contracts;
-            }
-        }
-
-        public static string CatalogRevision
-        {
-            get
-            {
-                EnsureCurrent();
-                return s_CatalogRevision;
-            }
-        }
-
-        public static bool TryGet(string commandName, out VmCommandContract contract)
-        {
-            EnsureCurrent();
-            return s_ContractsByName.TryGetValue(commandName, out contract);
-        }
-
-        internal static void Invalidate()
-        {
-            lock (s_Sync)
-            {
-                s_Contracts = null;
-                s_ContractsByName = null;
-                s_CatalogRevision = null;
-                s_AutomationCatalogRevision = null;
-            }
-        }
-
-        private static void EnsureCurrent()
-        {
-            lock (s_Sync)
-            {
-                string automationCatalogRevision =
-                    VmAutomationCatalog.CatalogRevision;
-                if (s_Contracts != null &&
-                    string.Equals(s_AutomationCatalogRevision,
-                        automationCatalogRevision,
-                        StringComparison.Ordinal))
-                {
-                    return;
-                }
-
-                Rebuild(automationCatalogRevision);
-            }
-        }
-
-        private static void Rebuild(string automationCatalogRevision)
+        static VmCommandContractCatalog()
         {
             var contracts = new List<VmCommandContract>
             {
@@ -97,7 +41,15 @@ namespace VMUnityPipeline.Editor.Contracts
             s_Contracts = contracts.AsReadOnly();
             s_ContractsByName = new ReadOnlyDictionary<string, VmCommandContract>(contractsByName);
             s_CatalogRevision = ComputeCatalogRevision(contracts);
-            s_AutomationCatalogRevision = automationCatalogRevision;
+        }
+
+        public static IReadOnlyList<VmCommandContract> Contracts => s_Contracts;
+
+        public static string CatalogRevision => s_CatalogRevision;
+
+        public static bool TryGet(string commandName, out VmCommandContract contract)
+        {
+            return s_ContractsByName.TryGetValue(commandName, out contract);
         }
 
         private static string ComputeCatalogRevision(IEnumerable<VmCommandContract> contracts)

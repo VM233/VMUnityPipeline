@@ -67,6 +67,9 @@ The automation catalog can contain hundreds of contracts without registering hun
 official CLI commands. `vm_catalog_list` remains capped at 50 and defaults to 10;
 `vm_catalog_get` retrieves one full schema. `vm_automation_call` accepts the selected
 identifier plus one JSON object and delegates to the transport-neutral automation owner.
+If that identifier names a discovered but invalid or duplicate project tool, the facade
+returns `invalid_project_tool` or `duplicate_project_tool` together with the exact
+registration source and validation error.
 
 The first three commands read immutable managed contract data on a background thread.
 `vm_editor_state` and `vm_automation_call` execute on the Unity main thread. Mutating
@@ -135,8 +138,6 @@ Catalog list output is always sorted, paginated, and capped at 50 entries. The d
 
 The catalog joins five explicit Pipeline contracts with the bounded, deterministic
 `VMUnityAutomation` catalog. Its revision is a SHA-256 digest of the full sorted contract
-set. When Automation publishes a new catalog revision after an assembly reload, Pipeline
-rebuilds this merged view on the next read; newly compiled project tools do not require an
-Editor restart. Automation routes are not expanded into `[CliCommand]` registrations.
+set. Automation routes are not expanded into `[CliCommand]` registrations.
 
 Package code is compiled through a supported consuming project after publishing an immutable Git revision. Do not add a local UPM dependency for development.
