@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.27] - 2026-08-22
+
+### Fixed
+
+- Require VM Unity Automation 0.3.40 and rebuild the merged CLI contract
+  catalog whenever the Automation catalog revision changes, so newly compiled
+  or removed project tools become discoverable without restarting Unity.
+
 ## [0.4.26] - 2026-08-22
 
 ### Fixed

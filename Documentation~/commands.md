@@ -2,7 +2,7 @@
 
 ## vm_catalog_status
 
-Returns the package version, contract version, catalog revision, and number of VM extension commands in the current Domain.
+Returns the package version, contract version, catalog revision, and number of VM extension commands in the current Domain. The merged view is rebuilt on the next read whenever Automation publishes a different revision after an assembly reload.
 
 ## vm_catalog_list
 

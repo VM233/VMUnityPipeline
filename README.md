@@ -135,6 +135,8 @@ Catalog list output is always sorted, paginated, and capped at 50 entries. The d
 
 The catalog joins five explicit Pipeline contracts with the bounded, deterministic
 `VMUnityAutomation` catalog. Its revision is a SHA-256 digest of the full sorted contract
-set. Automation routes are not expanded into `[CliCommand]` registrations.
+set. When Automation publishes a new catalog revision after an assembly reload, Pipeline
+rebuilds this merged view on the next read; newly compiled project tools do not require an
+Editor restart. Automation routes are not expanded into `[CliCommand]` registrations.
 
 Package code is compiled through a supported consuming project after publishing an immutable Git revision. Do not add a local UPM dependency for development.
