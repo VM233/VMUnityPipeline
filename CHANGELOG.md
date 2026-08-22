@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.26] - 2026-08-22
+
+### Fixed
+
+- Require VM Unity Automation 0.3.39 so durable Job starts retain their
+  transport request identity and `vm_job_status --request_id` can recover the
+  exact admission-queued Job without copying a wrapped token.
+
 ## [0.4.25] - 2026-08-22
 
 ### Changed
