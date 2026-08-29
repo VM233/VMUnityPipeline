@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.31] - 2026-08-29
+
+### Fixed
+
+- Require VM Unity Automation 0.3.62 so clean-compilation evidence preserves
+  dotted output identities and accepts Unity's missing per-assembly start and
+  finish callbacks only with complete not-required terminal coverage.
+
 ## [0.4.30] - 2026-08-29
 
 ### Fixed
