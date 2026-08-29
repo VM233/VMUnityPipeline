@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.29] - 2026-08-29
+
+### Fixed
+
+- Require VM Unity Automation 0.3.60 so durable refresh, package-adoption,
+  and code-asset transaction jobs can only report a clean compilation after
+  every expected script assembly publishes completion evidence.
+
 ## [0.4.28] - 2026-08-22
 
 ### Fixed
