@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.30] - 2026-08-29
+
+### Fixed
+
+- Require VM Unity Automation 0.3.61 so durable clean compilation models
+  Unity's UUM-95901 callback behavior with separate started, finished, and
+  not-required assembly evidence instead of falsely reporting no compilation.
+
 ## [0.4.29] - 2026-08-29
 
 ### Fixed
