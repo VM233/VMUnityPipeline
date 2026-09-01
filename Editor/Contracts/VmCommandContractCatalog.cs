@@ -23,6 +23,7 @@ namespace VMUnityPipeline.Editor.Contracts
                 VmCatalogListCommand.Contract,
                 VmCatalogStatusCommand.Contract,
                 VmEditorStateCommand.Contract,
+                VmRemoveMissingScriptsCommand.Contract,
                 VmJobStatusCommand.Contract,
                 VmAutomationCallCommand.Contract
             };

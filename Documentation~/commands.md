@@ -38,6 +38,22 @@ isChangingPlayMode is derived from Unity's two authoritative EditorApplication f
 
 The command is main-thread-only. It does not enter or exit Play Mode and does not modify project state.
 
+## vm_remove_missing_scripts
+
+Removes every missing MonoBehaviour slot from one loaded-scene GameObject addressed by
+the official Pipeline `ObjectRef` contract. The operation requires stable Edit Mode,
+registers one Unity Undo snapshot, and marks the owning scene dirty. It never saves the
+scene implicitly; call `save_scene` after checking `removedCount` and `sceneDirty`.
+
+An already-clean GameObject succeeds with `removedCount=0`, so the command is idempotent.
+Domain failures return `ok=false` with one of:
+
+- `edit_mode_required`
+- `editor_not_stable`
+- `target_not_found`
+- `target_not_game_object`
+- `loaded_scene_target_required`
+
 ## vm_job_status
 
 Reads the latest immutable published snapshot for one durable VM automation job by

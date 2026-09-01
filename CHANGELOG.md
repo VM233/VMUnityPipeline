@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.32] - 2026-09-01
+
+### Added
+
+- Add `vm_remove_missing_scripts` as the typed, Undo-backed owner for removing
+  missing MonoBehaviour slots from one loaded-scene GameObject. The command
+  marks the scene dirty, leaves saving explicit, and returns stable domain
+  errors for unstable Editor state and invalid targets.
+
 ## [0.4.31] - 2026-08-29
 
 ### Fixed

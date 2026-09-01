@@ -54,12 +54,13 @@ unity --non-interactive --no-banner shell --protocol ndjson
 recording either an opt-in or opt-out. The Agent must not choose that preference
 for the user. Do not replace this shell with an alternate transport.
 
-The official CLI surface contains only six commands:
+The official CLI surface contains only seven commands:
 
 - vm_catalog_status
 - vm_catalog_list
 - vm_catalog_get
 - vm_editor_state
+- vm_remove_missing_scripts
 - vm_job_status
 - vm_automation_call
 
@@ -72,9 +73,11 @@ returns `invalid_project_tool` or `duplicate_project_tool` together with the exa
 registration source and validation error.
 
 The first three commands read immutable managed contract data on a background thread.
-`vm_editor_state` and `vm_automation_call` execute on the Unity main thread. Mutating
-automation contracts require an exact absolute `expected_project_path`; dangerous
-contracts additionally require `confirm=true` inside `arguments_json`.
+`vm_editor_state`, `vm_remove_missing_scripts`, and `vm_automation_call` execute on the
+Unity main thread. `vm_remove_missing_scripts` owns one Undo-backed loaded-scene cleanup,
+marks that scene dirty, and deliberately leaves persistence to a later `save_scene` call.
+Mutating automation contracts require an exact absolute `expected_project_path`;
+dangerous contracts additionally require `confirm=true` inside `arguments_json`.
 
 `vm_job_status` is the intentionally separate background-safe polling boundary for durable
 automation jobs. It reads the latest immutable published snapshot, so package imports,
@@ -136,7 +139,7 @@ Catalog list output is always sorted, paginated, and capped at 50 entries. The d
 
 ## Development
 
-The catalog joins five explicit Pipeline contracts with the bounded, deterministic
+The catalog joins seven explicit Pipeline contracts with the bounded, deterministic
 `VMUnityAutomation` catalog. Its revision is a SHA-256 digest of the full sorted contract
 set. Automation routes are not expanded into `[CliCommand]` registrations.
 
