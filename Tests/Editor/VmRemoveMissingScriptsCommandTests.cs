@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Unity.Pipeline;
 using Unity.Pipeline.Models;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -13,17 +14,15 @@ namespace VMUnityPipeline.Editor.Tests
         [Test]
         public void Execute_RemovesMissingSlotAndMarksSceneDirty()
         {
-            var previousActiveScene = SceneManager.GetActiveScene();
-            var testScene = EditorSceneManager.NewScene(
-                NewSceneSetup.EmptyScene,
-                NewSceneMode.Additive);
-            var objectName = "__VmMissingScript_" +
-                             System.Guid.NewGuid().ToString("N");
+            var testScene = EditorSceneManager.NewPreviewScene();
+            var identity = System.Guid.NewGuid().ToString("N");
+            var objectName = "__VmMissingScript_" + identity;
+            GameObject gameObject = null;
 
             try
             {
-                SceneManager.SetActiveScene(testScene);
-                var gameObject = new GameObject(objectName);
+                gameObject = new GameObject(objectName);
+                SceneManager.MoveGameObjectToScene(gameObject, testScene);
                 var sentinel = gameObject.AddComponent<VmMissingScriptSentinel>();
                 var serializedSentinel = new SerializedObject(sentinel);
                 var scriptProperty = serializedSentinel.FindProperty("m_Script");
@@ -39,7 +38,7 @@ namespace VMUnityPipeline.Editor.Tests
 
                 var target = new ObjectRef
                 {
-                    HierarchyPath = "/" + objectName
+                    InstanceId = PipelineUtils.GetObjectId(gameObject)
                 };
                 var result = VmRemoveMissingScriptsCommand.Execute(target);
 
@@ -59,12 +58,16 @@ namespace VMUnityPipeline.Editor.Tests
             }
             finally
             {
-                if (previousActiveScene.IsValid() && previousActiveScene.isLoaded)
+                if (gameObject != null)
                 {
-                    SceneManager.SetActiveScene(previousActiveScene);
+                    Object.DestroyImmediate(gameObject);
                 }
 
-                EditorSceneManager.CloseScene(testScene, true);
+                if (testScene.IsValid() && testScene.isLoaded)
+                {
+                    EditorSceneManager.ClosePreviewScene(testScene);
+                }
+
                 Undo.ClearAll();
             }
         }

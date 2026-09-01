@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.34] - 2026-09-01
+
+### Fixed
+
+- Run the missing-script regression fixture in an isolated Editor preview
+  scene addressed through the official instance-id ObjectRef, so an unsaved
+  Test Runner scene cannot block setup or inherit test mutations.
+
 ## [0.4.33] - 2026-09-01
 
 ### Fixed
