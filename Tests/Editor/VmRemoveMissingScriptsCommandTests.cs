@@ -23,7 +23,7 @@ namespace VMUnityPipeline.Editor.Tests
             {
                 gameObject = new GameObject(objectName);
                 SceneManager.MoveGameObjectToScene(gameObject, testScene);
-                var sentinel = gameObject.AddComponent<VmMissingScriptSentinel>();
+                var sentinel = gameObject.AddComponent<RuntimePipelineManager>();
                 var serializedSentinel = new SerializedObject(sentinel);
                 var scriptProperty = serializedSentinel.FindProperty("m_Script");
 

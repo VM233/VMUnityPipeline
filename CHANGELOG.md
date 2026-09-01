@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.35] - 2026-09-01
+
+### Fixed
+
+- Use the package's runtime `RuntimePipelineManager` as the missing-script
+  regression subject so Unity can attach it before the test clears its
+  `m_Script`; remove the invalid Editor-only sentinel component.
+
 ## [0.4.34] - 2026-09-01
 
 ### Fixed
