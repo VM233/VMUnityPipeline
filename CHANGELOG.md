@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.33] - 2026-09-01
+
+### Fixed
+
+- Declare the official `Unity.Pipeline.Editor` assembly dependency required by
+  `vm_remove_missing_scripts` for `ObjectResolver` instead of copying Pipeline
+  object-reference resolution into the extension package.
+
 ## [0.4.32] - 2026-09-01
 
 ### Added
