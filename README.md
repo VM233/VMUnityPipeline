@@ -12,6 +12,11 @@ The package adds no second Editor transport. Commands are discovered and execute
 
 Both upstream components are prerelease software. This package pins the Pipeline dependency and reviews Unity CLI release notes before changing the supported CLI version.
 
+Unity CLI 1.0.0-beta.8 requires `com.unity.pipeline` 0.6.0-exp.1 for argument
+binding. Projects upgrading that CLI must also select that transport version.
+Its runtime setup uses Project Settings and `RuntimePipelineBootstrap.Instance`;
+move authored runtime settings out of obsolete scene manager components.
+
 ## Installation
 
 Install from an immutable Git revision:
@@ -47,7 +52,7 @@ unity --non-interactive --no-banner shell --protocol ndjson
 ```
 
 ```json
-{"id":"1","argv":["command","vm_catalog_list","--query","editor","--limit","2","--format","json"]}
+{"id":"1","argv":["command","vm_catalog_list","--","--query","editor","--limit","2"]}
 ```
 
 `UNITY_NO_CONSENT_PROMPT` suppresses the first-run analytics question without

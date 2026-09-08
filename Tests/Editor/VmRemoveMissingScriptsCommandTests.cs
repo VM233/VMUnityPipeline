@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using VMUnityPipeline.Editor.Commands;
 
 namespace VMUnityPipeline.Editor.Tests
@@ -23,7 +24,7 @@ namespace VMUnityPipeline.Editor.Tests
             {
                 gameObject = new GameObject(objectName);
                 SceneManager.MoveGameObjectToScene(gameObject, testScene);
-                var sentinel = gameObject.AddComponent<RuntimePipelineManager>();
+                var sentinel = gameObject.AddComponent<Image>();
                 var serializedSentinel = new SerializedObject(sentinel);
                 var scriptProperty = serializedSentinel.FindProperty("m_Script");
 

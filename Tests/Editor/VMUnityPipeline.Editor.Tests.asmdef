@@ -3,7 +3,8 @@
   "rootNamespace": "VMUnityPipeline.Editor.Tests",
   "references": [
     "VMUnityPipeline.Editor",
-    "Unity.Pipeline"
+    "Unity.Pipeline",
+    "UnityEngine.UI"
   ],
   "includePlatforms": [
     "Editor"

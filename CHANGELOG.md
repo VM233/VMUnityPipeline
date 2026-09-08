@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.36] - 2026-09-09
+
+### Fixed
+
+- Use a runtime UGUI Image as the missing-script regression subject. The test
+  no longer depends on the removed RuntimePipelineManager type or starts a
+  transport driver merely to create a missing MonoBehaviour slot.
+
 ## [0.4.35] - 2026-09-01
 
 ### Fixed
