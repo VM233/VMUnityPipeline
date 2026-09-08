@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.37] - 2026-09-09
+
+### Fixed
+
+- Preserve JSON string values exactly in automation arguments, including ISO timestamps.
+  Console time filters now receive the original timestamp instead of quoted date JSON.
+  Duplicate properties, trailing data and non-object roots remain invalid.
+
 ## [0.4.36] - 2026-09-09
 
 ### Fixed

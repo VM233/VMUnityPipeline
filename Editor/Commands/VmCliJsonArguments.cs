@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -23,7 +24,13 @@ namespace VMUnityPipeline.Editor.Commands
                 {
                     DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error
                 };
-                JToken token = JToken.Parse(json, settings);
+                using var reader = new JsonTextReader(new StringReader(json))
+                {
+                    DateParseHandling = DateParseHandling.None
+                };
+                JToken token = JToken.ReadFrom(reader, settings);
+                // Preserve Parse's single-document validation, including trailing data.
+                while (reader.Read()) { }
                 if (!(token is JObject jsonObject))
                 {
                     errorMessage = "arguments_json must contain one JSON object.";

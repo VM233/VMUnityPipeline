@@ -72,6 +72,9 @@ the connected checkout's exact absolute path via `expected_project_path`; danger
 contracts require `confirm=true` in the JSON object. Request IDs are idempotent inside the
 current Editor domain, while reload-resumable owners publish durable job state.
 
+JSON strings retain their exact text, including timestamp precision and timezone offsets.
+The facade does not infer dates or coerce string values before contract binding.
+
 If the selected identifier names a project tool that was discovered but has an
 invalid or duplicate registration, the command returns `invalid_project_tool`
 or `duplicate_project_tool` with the exact registration source and validation
