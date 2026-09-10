@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.39] - 2026-09-10
+
+### Fixed
+
+- Require Unity Automation 0.4.1 so image resize publishes its typed dimensions,
+  hashes, and verification evidence through the CLI.
+
 ## [0.4.38] - 2026-09-10
 
 ### Changed
