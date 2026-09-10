@@ -1,6 +1,6 @@
 # VM Unity Pipeline
 
-The package requires Unity Automation 0.5.0 or newer. Its direct `asset/import` resize and standalone `image/resize` tools are
+The package requires Unity Automation 0.6.1 or newer, including in-place PNG resize and exact Prefab property reversion. Its direct `asset/import` resize and standalone `image/resize` tools are
 available through bounded catalog discovery and `vm_automation_call`.
 
 VM Unity Pipeline extends Unity Technologies' official Unity CLI and com.unity.pipeline package with contracts needed by token-efficient, project-safe automation.

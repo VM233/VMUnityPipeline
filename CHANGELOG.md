@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.41] - 2026-09-10
+
+### Changed
+
+- Require Unity Automation 0.6.1 for identity-preserving in-place PNG resize
+  and exact inherited property reversion in Prefab transactions.
+
 ## [0.4.40] - 2026-09-10
 
 ### Changed
