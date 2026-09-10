@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.40] - 2026-09-10
+
+### Changed
+
+- Require Unity Automation 0.5.0 for direct asset import with in-memory PNG
+  resize, final-content dedupe, verified receipts and transaction rollback.
+
 ## [0.4.39] - 2026-09-10
 
 ### Fixed
