@@ -1,5 +1,8 @@
 # VM Unity Pipeline
 
+The package requires Unity Automation 0.4.0 or newer. Its `image/resize` tool is
+available through bounded catalog discovery and `vm_automation_call`.
+
 VM Unity Pipeline extends Unity Technologies' official Unity CLI and com.unity.pipeline package with contracts needed by token-efficient, project-safe automation.
 
 The package adds no second Editor transport. Commands are discovered and executed by the official Pipeline server.

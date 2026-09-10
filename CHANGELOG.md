@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.38] - 2026-09-10
+
+### Changed
+
+- Require Unity Automation 0.4.0, including the typed `image/resize` PNG command
+  through the existing catalog and invocation facade.
+
 ## [0.4.37] - 2026-09-09
 
 ### Fixed
