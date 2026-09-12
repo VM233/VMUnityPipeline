@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.46] - 2026-09-13
+
+### Changed
+
+- Require Automation 0.6.9 so Test Runner details survive package-workflow
+  assembly reloads with incremental result publication.
+
 ## [0.4.45] - 2026-09-13
 
 ### Changed
