@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.42] - 2026-09-12
+
+### Fixed
+
+- Preserve Automation's declared effects without inventing a `read` effect
+  for an absent list. Require Automation 0.6.2, which supplies the previously
+  missing build, test, preference, debugger, view and cancellation effects.
+
 ## [0.4.41] - 2026-09-10
 
 ### Changed

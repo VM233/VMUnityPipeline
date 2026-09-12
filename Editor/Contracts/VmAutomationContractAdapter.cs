@@ -61,11 +61,11 @@ namespace VMUnityPipeline.Editor.Contracts
             return contracts.AsReadOnly();
         }
 
-        private static VmCommandContract CreateContract(IDictionary<string, object> tool)
+        internal static VmCommandContract CreateContract(IDictionary<string, object> tool)
         {
             IDictionary<string, object> transaction = ReadDictionary(tool, "transaction");
             IReadOnlyList<string> tags = ReadStrings(tool, "tags", "automation");
-            IReadOnlyList<string> sideEffects = ReadStrings(tool, "sideEffects", "read");
+            IReadOnlyList<string> sideEffects = ReadStrings(tool, "sideEffects");
             IReadOnlyList<string> preconditions = ReadStrings(
                 tool,
                 "preconditions",
