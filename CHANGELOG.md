@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.43] - 2026-09-12
+
+### Fixed
+
+- Correct the effect regression test asset's GUID so Unity imports and runs
+  the adapter cases instead of omitting that test file.
+
 ## [0.4.42] - 2026-09-12
 
 ### Fixed
