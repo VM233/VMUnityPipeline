@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.45] - 2026-09-13
+
+### Changed
+
+- Require Automation 0.6.8, including explicit Profiler frame retirement and
+  frame-range receipts after a performance capture.
+
 ## [0.4.44] - 2026-09-12
 
 ### Changed
