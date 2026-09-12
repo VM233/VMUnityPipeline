@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.4.44] - 2026-09-12
+
+### Changed
+
+- Require Automation 0.6.3, including owner-bound cancellation checks for
+  cooperative project tools that advance between durable progress observations.
+
 ## [0.4.43] - 2026-09-12
 
 ### Fixed
