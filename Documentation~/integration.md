@@ -103,7 +103,11 @@ If that identifier names a discovered but invalid or duplicate project tool, the
 returns `invalid_project_tool` or `duplicate_project_tool` together with the exact
 registration source and validation error.
 
-The first three commands read immutable managed contract data on a background thread.
+`vm_catalog_list` and `vm_catalog_get` read immutable managed contract data on a
+background thread. `vm_catalog_status` runs on the Unity main thread and returns
+`ownerCounts` alongside the catalog identity. Its `invalidProjectTools` list comes
+from Automation's registration owner, including invalid tools excluded from the
+valid contract catalog; an empty list is required for registration acceptance.
 `vm_editor_state`, `vm_remove_missing_scripts`, and `vm_automation_call` execute on the
 Unity main thread. `vm_remove_missing_scripts` owns one Undo-backed loaded-scene cleanup,
 marks that scene dirty, and deliberately leaves persistence to a later `save_scene` call.

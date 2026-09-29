@@ -8,6 +8,9 @@ Install `com.vm233.unity-pipeline` and `com.vm233.unity-automation` from immutab
 remote Git revisions. The package manifest declares supported Unity and upstream
 package requirements; each consuming project owns its exact revision selection.
 
+Begin with `vm_catalog_status` to inspect the catalog identity, package owner
+counts and invalid project-tool registrations, then use bounded discovery.
+
 - [Integration and installation](Documentation~/integration.md)
 - [Command contracts](Documentation~/commands.md)
 - [Release history](CHANGELOG.md)

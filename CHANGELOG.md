@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.2] - 2026-09-29
+
+### Added
+
+- Report package owner counts and invalid project-tool registrations through
+  `vm_catalog_status`, using Automation's authoritative registration diagnostics.
+- Cover invalid registrations that are excluded from the valid contract catalog
+  with a focused status regression and the published output schema.
+
 ## [0.5.1] - 2026-09-29
 
 ### Fixed

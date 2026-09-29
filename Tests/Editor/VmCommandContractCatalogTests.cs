@@ -29,6 +29,35 @@ namespace VMUnityPipeline.Editor.Tests
         }
 
         [Test]
+        public void CatalogStatus_ReportsOwnerCountsAndInvalidProjectTools()
+        {
+            var projectTools = new[]
+            {
+                new Dictionary<string, object> { { "toolName", "valid/tool" } },
+                new Dictionary<string, object>
+                {
+                    { "toolName", "invalid/tool" },
+                    { "package", "project:test" },
+                    { "validationError", "The registered output schema is invalid." }
+                }
+            };
+            var result = VmCatalogStatusCommand.CreateResult(
+                VmCommandContractCatalog.Contracts, projectTools);
+
+            Assert.That(result.Ok, Is.True);
+            Assert.That(result.OwnerCounts.Values.Sum(), Is.EqualTo(result.CommandCount));
+            Assert.That(result.OwnerCounts[VmUnityPipelineInfo.PackageId], Is.EqualTo(7));
+            Assert.That(result.InvalidProjectTools, Has.Count.EqualTo(1));
+            Assert.That(result.InvalidProjectTools[0].ToolName, Is.EqualTo("invalid/tool"));
+            Assert.That(result.InvalidProjectTools[0].Package, Is.EqualTo("project:test"));
+            Assert.That(result.InvalidProjectTools[0].ValidationError,
+                Is.EqualTo("The registered output schema is invalid."));
+            var schema = (VmJsonSchema)VmCatalogStatusCommand.Contract.OutputSchema;
+            Assert.That(schema.Required, Does.Contain("ownerCounts"));
+            Assert.That(schema.Required, Does.Contain("invalidProjectTools"));
+        }
+
+        [Test]
         public void Contracts_AreUniqueSortedAndComplete()
         {
             var contracts = VmCommandContractCatalog.Contracts;

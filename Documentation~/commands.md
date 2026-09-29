@@ -2,7 +2,11 @@
 
 ## vm_catalog_status
 
-Returns the package version, contract version, catalog revision, and number of VM extension commands in the current Domain.
+Returns the package version, contract version, catalog revision, number of VM
+extension commands, and `ownerCounts` keyed by their authoritative package owners.
+The `invalidProjectTools` list preserves Automation's registration errors for
+project tools excluded from the valid catalog. Require an empty list before
+accepting registrations. This command runs on Unity's main thread.
 
 ## vm_catalog_list
 
