@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.Pipeline.Attributes;
+using Unity.Pipeline.Commands;
 using VMUnityAutomation.Editor;
 using VMUnityPipeline.Editor.Contracts;
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using Unity.Pipeline.Attributes;
+using Unity.Pipeline.Commands;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;

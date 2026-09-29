@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Unity.Pipeline.Attributes;
+using Unity.Pipeline.Commands;
 using Unity.Pipeline.Editor.Authoring;
 using Unity.Pipeline.Models;
 using UnityEditor;

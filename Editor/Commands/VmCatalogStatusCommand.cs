@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.Pipeline.Attributes;
+using Unity.Pipeline.Commands;
 using VMUnityPipeline.Editor.Contracts;
 
 namespace VMUnityPipeline.Editor.Commands

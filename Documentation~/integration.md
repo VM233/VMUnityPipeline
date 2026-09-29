@@ -22,7 +22,8 @@ Both upstream components are prerelease software. This package pins the Pipeline
 
 ## Pipeline 0.8 migration
 
-Command declarations import `Unity.Pipeline.Attributes`. Assemblies declaring
+Command declarations still import the `Unity.Pipeline.Commands` namespace.
+Assemblies declaring
 `[CliCommand]` or `[CliArg]` explicitly reference `Unity.Pipeline.Attributes`;
 retain `Unity.Pipeline` only where model or runtime APIs are also used. This
 package supports the new API directly and provides no legacy attribute adapter.

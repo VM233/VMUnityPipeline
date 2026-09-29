@@ -2,12 +2,21 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.1] - 2026-09-29
+
+### Fixed
+
+- Restore the `Unity.Pipeline.Commands` namespace imports for command attributes.
+  Pipeline 0.8 moved them to the `Unity.Pipeline.Attributes` assembly without
+  changing their namespace; the incorrect imports in 0.5.0 prevented compilation.
+- Verify the attribute assembly as part of the command registration regression.
+
 ## [0.5.0] - 2026-09-29
 
 ### Changed
 
 - Require Unity Pipeline 0.8.0-exp.1 and register every command through its
-  `Unity.Pipeline.Attributes` namespace and assembly. Earlier Pipeline versions
+  `Unity.Pipeline.Attributes` assembly. Earlier Pipeline versions
   are no longer supported by this release.
 - Move integration, lifecycle, compatibility and authoring details from the
   README into `Documentation~/integration.md`.

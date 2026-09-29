@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Unity.Pipeline.Attributes;
+using Unity.Pipeline.Commands;
 using VMUnityPipeline.Editor.Commands;
 using VMUnityPipeline.Editor.Contracts;
 
@@ -13,6 +13,9 @@ namespace VMUnityPipeline.Editor.Tests
         [Test]
         public void PipelineRegistrations_CoverEveryPackageContract()
         {
+            Assert.That(typeof(CliCommandAttribute).Assembly.GetName().Name,
+                Is.EqualTo("Unity.Pipeline.Attributes"));
+
             var registrations = typeof(VmCatalogGetCommand).Assembly.GetTypes()
                 .SelectMany(type => type.GetMethods(
                     BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly))
