@@ -2,6 +2,21 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.0] - 2026-09-29
+
+### Changed
+
+- Require Unity Pipeline 0.8.0-exp.1 and register every command through its
+  `Unity.Pipeline.Attributes` namespace and assembly. Earlier Pipeline versions
+  are no longer supported by this release.
+- Move integration, lifecycle, compatibility and authoring details from the
+  README into `Documentation~/integration.md`.
+
+### Tests
+
+- Check that official Pipeline attribute registrations cover every VM Pipeline
+  package contract.
+
 ## [0.4.48] - 2026-09-13
 
 ### Changed

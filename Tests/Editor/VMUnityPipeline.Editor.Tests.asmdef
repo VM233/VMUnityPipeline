@@ -4,6 +4,7 @@
   "references": [
     "VMUnityPipeline.Editor",
     "Unity.Pipeline",
+    "Unity.Pipeline.Attributes",
     "UnityEngine.UI"
   ],
   "includePlatforms": [

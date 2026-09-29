@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
+using Unity.Pipeline.Attributes;
 using VMUnityPipeline.Editor.Commands;
 using VMUnityPipeline.Editor.Contracts;
 
@@ -8,6 +10,21 @@ namespace VMUnityPipeline.Editor.Tests
 {
     internal sealed class VmCommandContractCatalogTests
     {
+        [Test]
+        public void PipelineRegistrations_CoverEveryPackageContract()
+        {
+            var registrations = typeof(VmCatalogGetCommand).Assembly.GetTypes()
+                .SelectMany(type => type.GetMethods(
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly))
+                .Where(method => System.Attribute.IsDefined(method, typeof(CliCommandAttribute)))
+                .ToArray();
+            var contractCount = VmCommandContractCatalog.Contracts.Count(
+                contract => contract.Package == VmUnityPipelineInfo.PackageId);
+
+            Assert.That(registrations, Has.Length.EqualTo(contractCount));
+            Assert.That(registrations.Select(method => method.DeclaringType), Is.Unique);
+        }
+
         [Test]
         public void Contracts_AreUniqueSortedAndComplete()
         {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Unity.Pipeline.Commands;
+using Unity.Pipeline.Attributes;
 using VMUnityPipeline.Editor.Contracts;
 
 namespace VMUnityPipeline.Editor.Commands
