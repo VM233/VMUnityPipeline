@@ -26,7 +26,7 @@ namespace VMUnityPipeline.Editor.Commands
                 {
                     { "command", VmJsonSchema.String("Exact vm_auto_ or vm_pt_ identifier, or exact automation route.") },
                     { "arguments_json", VmJsonSchema.String("One JSON object containing owner arguments.", "{}") },
-                    { "expected_project_path", VmJsonSchema.String("Absolute project root required by mutating owner contracts.") },
+                    { "expected_project_path", VmJsonSchema.String("Absolute project root required by mutating owner contracts. Automation accepts equivalent normalized paths in arguments_json.expectedProjectPath and rejects different project roots.") },
                     { "request_id", VmJsonSchema.String("Optional idempotent request identifier.") },
                     { "agent_id", VmJsonSchema.String("Optional caller identity for action and job ownership.") },
                     { "timeout_seconds", VmJsonSchema.Integer(
@@ -73,7 +73,7 @@ namespace VMUnityPipeline.Editor.Commands
             string command,
             [CliArg("arguments_json", "Owner arguments as one JSON object.")]
             string argumentsJson = "{}",
-            [CliArg("expected_project_path", "Absolute project root for mutating commands.")]
+            [CliArg("expected_project_path", "Absolute project root for mutating commands. Equivalent normalized arguments_json.expectedProjectPath is accepted.")]
             string expectedProjectPath = null,
             [CliArg("request_id", "Optional idempotent request identifier.")]
             string requestId = null,
@@ -91,14 +91,6 @@ namespace VMUnityPipeline.Editor.Commands
                 return Failure(command, requestId, "invalid_arguments_json", parseError);
             }
 
-            if (!TryApplyExpectedProjectPath(
-                    arguments,
-                    expectedProjectPath,
-                    out string bindingError))
-            {
-                return Failure(command, requestId, "argument_conflict", bindingError);
-            }
-
             try
             {
                 return await VmAutomationExecutor.ExecuteAsync(
@@ -106,7 +98,8 @@ namespace VMUnityPipeline.Editor.Commands
                     arguments,
                     requestId,
                     agentId,
-                    timeoutSeconds);
+                    timeoutSeconds,
+                    expectedProjectPath);
             }
             catch (Exception exception)
             {
@@ -117,31 +110,6 @@ namespace VMUnityPipeline.Editor.Commands
                     "command_exception",
                     $"{rootCause.GetType().Name}: {rootCause.Message}");
             }
-        }
-
-        private static bool TryApplyExpectedProjectPath(
-            IDictionary<string, object> arguments,
-            string expectedProjectPath,
-            out string errorMessage)
-        {
-            errorMessage = null;
-            if (string.IsNullOrWhiteSpace(expectedProjectPath))
-                return true;
-
-            if (arguments.TryGetValue("expectedProjectPath", out object existing) &&
-                existing != null &&
-                !string.Equals(
-                    existing.ToString(),
-                    expectedProjectPath,
-                    StringComparison.Ordinal))
-            {
-                errorMessage =
-                    "expected_project_path conflicts with arguments_json.expectedProjectPath.";
-                return false;
-            }
-
-            arguments["expectedProjectPath"] = expectedProjectPath;
-            return true;
         }
 
         private static Dictionary<string, object> Failure(

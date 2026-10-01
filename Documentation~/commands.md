@@ -76,6 +76,12 @@ the connected checkout's exact absolute path via `expected_project_path`; danger
 contracts require `confirm=true` in the JSON object. Request IDs are idempotent inside the
 current Editor domain, while reload-resumable owners publish durable job state.
 
+Automation owns comparison of `expected_project_path` with an optional JSON
+`expectedProjectPath`. Equivalent normalized absolute paths are accepted and
+fingerprinted consistently. Different roots return `argument_conflict`; a
+consistent binding to another checkout returns `project_mismatch`. Relative paths
+return `invalid_project_path`. All fail before owner side effects.
+
 JSON strings retain their exact text, including timestamp precision and timezone offsets.
 The facade does not infer dates or coerce string values before contract binding.
 

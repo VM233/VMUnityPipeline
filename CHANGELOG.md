@@ -2,6 +2,16 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.3] - 2026-10-01
+
+### Fixed
+
+- Delegate both expected project path inputs to Automation's binding owner.
+  Equivalent absolute Windows path spellings no longer cause `argument_conflict`;
+  different roots still fail before execution. Require Automation 0.6.84.
+- Document plain stdio for correlated NDJSON responses, argument placement and
+  background durable-job polling across imports and compilation.
+
 ## [0.5.2] - 2026-09-29
 
 ### Added

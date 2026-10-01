@@ -1,7 +1,8 @@
 # Integration
 
-The package requires Unity Automation 0.6.13 or newer, including inspected Editor window capture with complete geometry, complete test results across assembly reloads, explicit Profiler capture retirement, cooperative job cancellation, explicit build and Editor command effects, in-place PNG resize and exact Prefab property reversion. Its direct `asset/import` resize and standalone `image/resize` tools are
-available through bounded catalog discovery and `vm_automation_call`.
+The package requires Unity Automation 0.6.84 or newer. Its current capabilities,
+schemas, effects and errors are owned by Automation's catalog and are available
+through bounded discovery and `vm_automation_call`.
 
 VM Unity Pipeline extends Unity Technologies' official Unity CLI and com.unity.pipeline package with contracts needed by token-efficient, project-safe automation.
 
@@ -71,6 +72,14 @@ Use one `unity shell --protocol ndjson` process for repeated Agent calls. Set
 do not select an Editor by project name. A caller writes one JSON request per
 line and reads exactly one correlated response per line.
 
+Connect machine-readable stdout to a plain pipe or stream. A terminal/PTY can add
+cursor controls, line wrapping and display truncation; terminal-rendered output
+is not an NDJSON stream. Do not reconstruct responses by stripping ANSI codes or
+joining wrapped lines. Read each complete UTF-8 line from the CLI's stdout and
+parse it once, independently of echoed stdin and stderr. On Windows, a host that
+requires a PTY for stdin may redirect the official process's stdout directly to
+a file and tail that stream; this is output routing for the same official CLI.
+
 ```powershell
 $env:UNITY_PROJECT_PATH = 'D:\UnityProjects\YourProject'
 $env:UNITY_NO_CONSENT_PROMPT = '1'
@@ -113,6 +122,15 @@ Unity main thread. `vm_remove_missing_scripts` owns one Undo-backed loaded-scene
 marks that scene dirty, and deliberately leaves persistence to a later `save_scene` call.
 Mutating automation contracts require an exact absolute `expected_project_path`;
 dangerous contracts additionally require `confirm=true` inside `arguments_json`.
+Automation normalizes the scalar path and optional JSON `expectedProjectPath`
+before comparison and request fingerprinting. Equivalent separators, trailing
+separators, dot segments and Windows case are accepted. Relative paths or bindings
+to different checkouts remain errors.
+
+Official child-command options belong before its positional arguments; registered
+Editor-command options belong after `--`. The expected-path option belongs to
+`vm_automation_call`, not `vm_editor_state` or catalog commands. Use each command's
+current help and exact catalog schema instead of inferring option names.
 
 `vm_job_status` is the intentionally separate background-safe polling boundary for durable
 automation jobs. It reads the latest immutable published snapshot, so package imports,
