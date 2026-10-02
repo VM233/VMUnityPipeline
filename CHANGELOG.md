@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.5] - 2026-10-03
+
+### Fixed
+
+- Declare the NUnit and Newtonsoft precompiled references used by the Editor
+  contract tests so the durable polling fixture compiles when package tests are
+  enabled in a consuming project.
+
 ## [0.5.4] - 2026-10-03
 
 ### Fixed
