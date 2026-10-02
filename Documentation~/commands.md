@@ -93,8 +93,13 @@ error instead of `command_not_found`.
 `timeout_seconds` is the inner wait bound used by the automation facade. It cannot extend
 the official CLI request timeout around this main-thread command. Keep reload-resumable
 submission contracts attached until they return their own `jobId` and `jobAccessToken`,
-then call `vm_job_status` once to release the admission-queued workspace job and continue
-polling it until terminal. An outer detached job does not survive a domain reload. Use
+then invoke the response's `polling.command` with `polling.arguments`, keeping the same
+absolute project binding. The closed instruction selects `vm_job_status` and maps the
+original job identity, optional capability and caller into its CLI parameters. Its first
+authorized read releases the admission-queued workspace job; continue reading that same
+job until terminal. Immediate owner products and domain failures omit `polling`.
+The owner's `pollRoute` remains transport-neutral; it is not the CLI polling command.
+An outer detached job does not survive a domain reload. Use
 `unity command --detach` plus `unity job wait` only for genuinely long, non-durable
 main-thread calls.
 

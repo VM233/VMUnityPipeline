@@ -2,6 +2,24 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.4] - 2026-10-03
+
+### Fixed
+
+- Return a closed, machine-readable `polling` instruction with successful durable
+  Automation products. It binds the same job identity, capability and caller to
+  the existing background `vm_job_status` command, instead of leaving CLI clients
+  to route `jobs/get` through the main-thread facade during compilation.
+- Preserve the Automation envelope and payload by reference. Immediate products
+  and domain failures do not advertise polling; no additional transport or job
+  lifecycle is introduced.
+
+### Tests
+
+- Cover the background command registration, exact parameter mapping, optional
+  capability/caller fields, immutable instruction publication, envelope
+  preservation, domain errors and closed schema.
+
 ## [0.5.3] - 2026-10-01
 
 ### Fixed

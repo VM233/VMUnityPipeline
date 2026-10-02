@@ -144,7 +144,8 @@ Choose the wait boundary from the selected owner contract:
 - A reload-resumable submission such as `asset/refresh`, `packages/update-git`,
   or the `play`/`stop` actions of `editor/play-mode` returns
   its own `jobId` and `jobAccessToken` immediately. Keep this short outer call attached so
-  the durable token reaches the client, then poll the inner job with `vm_job_status`.
+  the durable token reaches the client, then use the returned `polling.command` and
+  `polling.arguments` to observe the inner job through `vm_job_status`.
   That first authorized poll releases the admission-queued workspace job; continue polling
   until terminal. An outer detached job is intentionally in-memory and can be lost at
   domain reload.
@@ -176,10 +177,13 @@ $submission = unity --json --no-banner --non-interactive command `
   --project-path 'D:\UnityProjects\YourProject' vm_automation_call -- `
   --command vm_auto_asset_refresh --arguments_json '{}' `
   --expected_project_path 'D:\UnityProjects\YourProject' | ConvertFrom-Json
-$inner = $submission.data.result.result
+$polling = $submission.data.result.polling
+$pollParameters = @()
+foreach ($parameter in $polling.arguments.PSObject.Properties) {
+  $pollParameters += @("--$($parameter.Name)", [string]$parameter.Value)
+}
 unity --json --no-banner --non-interactive command `
-  --project-path 'D:\UnityProjects\YourProject' vm_job_status -- `
-  --job_id $inner.jobId --job_access_token $inner.jobAccessToken
+  --project-path 'D:\UnityProjects\YourProject' $polling.command -- @pollParameters
 ```
 
 ## Output contract

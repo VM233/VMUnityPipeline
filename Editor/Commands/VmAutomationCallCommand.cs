@@ -13,7 +13,8 @@ namespace VMUnityPipeline.Editor.Commands
         public const string Description =
             "Execute one exact VM automation or project-tool contract through the shared owner. " +
             "Call reload-resumable submission contracts attached so their durable job token reaches " +
-            "the client, then poll it with vm_job_status; the first authorized poll releases the " +
+            "the client, then invoke the returned polling.command with polling.arguments; " +
+            "it selects the background vm_job_status boundary. The first authorized poll releases the " +
             "inner workspace job for execution. Use the outer " +
             "Unity CLI --detach flow only for long non-durable calls.";
 
@@ -55,7 +56,8 @@ namespace VMUnityPipeline.Editor.Commands
             new[] { "pipeline_connected", "editor_connected" },
             "Returns the selected owner response or one stable domain error. " +
             "A response containing an inner jobId is durable admission evidence; " +
-            "the first authorized vm_job_status poll releases a queued workspace job, " +
+            "the returned polling object specifies its exact background CLI command and arguments; " +
+            "the first authorized poll releases a queued workspace job, " +
             "and subsequent polls observe it until terminal.",
             transactionScope: "delegated",
             transactionAtomicity: "declared_by_selected_command",
@@ -93,13 +95,14 @@ namespace VMUnityPipeline.Editor.Commands
 
             try
             {
-                return await VmAutomationExecutor.ExecuteAsync(
+                var ownerResult = await VmAutomationExecutor.ExecuteAsync(
                     command,
                     arguments,
                     requestId,
                     agentId,
                     timeoutSeconds,
                     expectedProjectPath);
+                return new VmAutomationCallResult(ownerResult, agentId);
             }
             catch (Exception exception)
             {
@@ -163,6 +166,7 @@ namespace VMUnityPipeline.Editor.Commands
                     { "requestId", VmJsonSchema.String("Idempotent request identifier.") },
                     { "status", VmJsonSchema.String("completed or failed.") },
                     { "result", VmJsonSchema.Any("Owner-defined result on success.") },
+                    { "polling", VmJobPollingInstructions.CreateSchema() },
                     {
                         "error",
                         VmJsonSchema.Object(
