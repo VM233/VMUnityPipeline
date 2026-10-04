@@ -28,7 +28,7 @@ namespace VMUnityPipeline.Editor.Commands
         [CliCommand(
             CommandName,
             Description,
-            MainThreadRequired = false,
+            MainThreadRequired = true,
             Tags = new[] { "observability/catalog" })]
         public static VmCatalogGetResult Execute(
             [CliArg("name", "Exact VM Pipeline command name.", Required = true)] string commandName)

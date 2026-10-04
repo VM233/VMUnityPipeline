@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.7] - 2026-10-05
+
+### Fixed
+
+- Run catalog list and exact lookup on the Editor main thread, matching status
+  and invocation. Native package-readiness queries no longer run on the CLI
+  background thread and falsely hide installed optional commands.
+- Add registration-thread regressions for all three catalog entry points.
+
 ## [0.5.6] - 2026-10-05
 
 ### Fixed

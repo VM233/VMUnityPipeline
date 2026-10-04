@@ -61,7 +61,7 @@ namespace VMUnityPipeline.Editor.Commands
         [CliCommand(
             CommandName,
             Description,
-            MainThreadRequired = false,
+            MainThreadRequired = true,
             Tags = new[] { "observability/catalog" })]
         public static VmCatalogListResult Execute(
             [CliArg("query", "Optional case-insensitive text query.")] string query = null,

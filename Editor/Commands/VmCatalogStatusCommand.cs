@@ -22,7 +22,7 @@ namespace VMUnityPipeline.Editor.Commands
                 {
                     { "ok", VmJsonSchema.Boolean("Whether the domain operation succeeded.") },
                     { "contractVersion", VmJsonSchema.Integer("Rich command contract format version.") },
-                    { "catalogRevision", VmJsonSchema.String("Revision shared by all contracts in this Domain.") },
+                    { "catalogRevision", VmJsonSchema.String("Revision of the currently published contract snapshot.") },
                     { "packageId", VmJsonSchema.String("UPM package identifier.") },
                     { "packageVersion", VmJsonSchema.String("UPM package version.") },
                     { "commandCount", VmJsonSchema.Integer("Number of VM command contracts.") },
@@ -55,7 +55,7 @@ namespace VMUnityPipeline.Editor.Commands
             new[] { "catalog_initialization_failed" },
             new[] { "read" },
             new[] { "pipeline_connected" },
-            "Returns the immutable catalog identity for the current Domain.");
+            "Returns the currently published catalog identity.");
 
         [CliCommand(
             CommandName,

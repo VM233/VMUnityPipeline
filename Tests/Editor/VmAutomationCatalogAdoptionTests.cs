@@ -1,5 +1,7 @@
 using System;
+using System.Reflection;
 using NUnit.Framework;
+using Unity.Pipeline.Commands;
 using VMUnityPipeline.Editor.Commands;
 using VMUnityPipeline.Editor.Contracts;
 
@@ -7,6 +9,16 @@ namespace VMUnityPipeline.Editor.Tests
 {
     internal sealed class VmAutomationCatalogAdoptionTests
     {
+        [TestCase(typeof(VmCatalogGetCommand))]
+        [TestCase(typeof(VmCatalogListCommand))]
+        [TestCase(typeof(VmCatalogStatusCommand))]
+        public void CatalogReadsUseTheMainThreadForNativePackageReadiness(Type owner)
+        {
+            var registration = owner.GetMethod("Execute", BindingFlags.Public | BindingFlags.Static)
+                .GetCustomAttribute<CliCommandAttribute>();
+            Assert.That(registration.MainThreadRequired, Is.True);
+        }
+
         [Test]
         public void ChangedRevisionReplacesNamesAndUnchangedRevisionDoesNotReload()
         {
