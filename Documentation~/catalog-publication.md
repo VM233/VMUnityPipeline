@@ -5,6 +5,12 @@ revision replaces the complete sorted contract list, name lookup and facade
 revision together. Domain initialization does not freeze optional-package
 availability. All top-level commands and the official transport remain unchanged.
 
+Catalog status, list, lookup and invocation all execute on the Editor main
+thread. Native PackageInfo and optional assembly readiness are Unity API work;
+running only list/get in the background made an installed package appear absent.
+Durable job observation still reads its published snapshot in the background and
+does not enter catalog construction.
+
 ## Static Cost Ledger (before implementation)
 
 The consuming witness has fewer than 900 Automation contracts, seven facade
