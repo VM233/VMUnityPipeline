@@ -106,3 +106,9 @@ main-thread calls.
 Package mutations require stable Edit Mode. Durable update/resolve jobs wait with the
 `edit-mode-required` blocked reason until Play Mode exits; package add/remove calls fail
 with the typed `edit_mode_required` error before starting Package Manager work.
+
+# Catalog revision adoption
+
+The facade reads Automation's current catalog revision before publishing or
+looking up contracts. [Catalog publication](catalog-publication.md) describes
+ownership, cost bounds and readiness-change verification.

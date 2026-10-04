@@ -6,17 +6,25 @@ using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using VMUnityPipeline.Editor.Commands;
+using VMUnityAutomation.Editor;
 
 namespace VMUnityPipeline.Editor.Contracts
 {
     internal static class VmCommandContractCatalog
     {
-        private static readonly IReadOnlyList<VmCommandContract> s_Contracts;
-        private static readonly IReadOnlyDictionary<string, VmCommandContract> s_ContractsByName;
-        private static readonly string s_CatalogRevision;
+        private static IReadOnlyList<VmCommandContract> s_Contracts;
+        private static IReadOnlyDictionary<string, VmCommandContract> s_ContractsByName;
+        private static string s_CatalogRevision;
+        private static string s_AutomationRevision;
 
-        static VmCommandContractCatalog()
+        private static void EnsureCurrent()
         {
+            AdoptRevision(VmAutomationCatalog.CatalogRevision, VmAutomationContractAdapter.LoadContracts);
+        }
+
+        internal static IReadOnlyDictionary<string, VmCommandContract> AdoptRevision(string revision, Func<IReadOnlyList<VmCommandContract>> loadContracts)
+        {
+            if (s_Contracts != null && s_AutomationRevision == revision) return s_ContractsByName;
             var contracts = new List<VmCommandContract>
             {
                 VmCatalogGetCommand.Contract,
@@ -27,7 +35,7 @@ namespace VMUnityPipeline.Editor.Contracts
                 VmJobStatusCommand.Contract,
                 VmAutomationCallCommand.Contract
             };
-            contracts.AddRange(VmAutomationContractAdapter.LoadContracts());
+            contracts.AddRange(loadContracts());
             contracts.Sort((left, right) => string.CompareOrdinal(left.Name, right.Name));
 
             var contractsByName = new Dictionary<string, VmCommandContract>(
@@ -39,17 +47,27 @@ namespace VMUnityPipeline.Editor.Contracts
                 contractsByName.Add(contract.Name, contract);
             }
 
+            string catalogRevision = ComputeCatalogRevision(contracts);
             s_Contracts = contracts.AsReadOnly();
             s_ContractsByName = new ReadOnlyDictionary<string, VmCommandContract>(contractsByName);
-            s_CatalogRevision = ComputeCatalogRevision(contracts);
+            s_CatalogRevision = catalogRevision;
+            s_AutomationRevision = revision;
+            return s_ContractsByName;
         }
 
-        public static IReadOnlyList<VmCommandContract> Contracts => s_Contracts;
+        public static IReadOnlyList<VmCommandContract> Contracts
+        {
+            get { EnsureCurrent(); return s_Contracts; }
+        }
 
-        public static string CatalogRevision => s_CatalogRevision;
+        public static string CatalogRevision
+        {
+            get { EnsureCurrent(); return s_CatalogRevision; }
+        }
 
         public static bool TryGet(string commandName, out VmCommandContract contract)
         {
+            EnsureCurrent();
             return s_ContractsByName.TryGetValue(commandName, out contract);
         }
 

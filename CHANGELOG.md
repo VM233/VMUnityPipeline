@@ -2,6 +2,15 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.6] - 2026-10-05
+
+### Fixed
+
+- Adopt changed Automation catalog revisions as one complete contract snapshot,
+  including lookup removal and facade revision. Optional package readiness is
+  no longer frozen by the first lookup after an Editor reload.
+- Add revision replacement and unchanged-revision reuse regression coverage.
+
 ## [0.5.5] - 2026-10-03
 
 ### Fixed
