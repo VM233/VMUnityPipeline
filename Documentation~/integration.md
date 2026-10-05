@@ -1,7 +1,7 @@
 # Integration
 
-The package requires Unity Automation 0.6.84 or newer. Its current capabilities,
-schemas, effects and errors are owned by Automation's catalog and are available
+The package manifest declares the required Unity Automation version. Automation
+owns its current capabilities, schemas, effects and errors, which are available
 through bounded discovery and `vm_automation_call`.
 
 VM Unity Pipeline extends Unity Technologies' official Unity CLI and com.unity.pipeline package with contracts needed by token-efficient, project-safe automation.
@@ -112,8 +112,8 @@ If that identifier names a discovered but invalid or duplicate project tool, the
 returns `invalid_project_tool` or `duplicate_project_tool` together with the exact
 registration source and validation error.
 
-`vm_catalog_list` and `vm_catalog_get` read immutable managed contract data on a
-background thread. `vm_catalog_status` runs on the Unity main thread and returns
+`vm_catalog_list`, `vm_catalog_get` and `vm_catalog_status` run on the Unity main
+thread because catalog adoption queries native package readiness. Status returns
 `ownerCounts` alongside the catalog identity. Its `invalidProjectTools` list comes
 from Automation's registration owner, including invalid tools excluded from the
 valid contract catalog; an empty list is required for registration acceptance.

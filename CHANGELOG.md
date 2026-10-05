@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.8] - 2026-10-05
+
+### Documentation
+
+- Align the integration guide with main-thread catalog discovery and make the
+  package manifest the authority for the required Automation version.
+
 ## [0.5.7] - 2026-10-05
 
 ### Fixed
