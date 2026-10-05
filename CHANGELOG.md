@@ -2,6 +2,14 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.10] - 2026-10-05
+
+### Fixed
+
+- Correct the invocation regression script's import GUID so Unity imports and
+  executes the fixture instead of ignoring it. The 0.5.9 adoption exposed the
+  malformed metadata before test acceptance.
+
 ## [0.5.9] - 2026-10-05
 
 ### Fixed
