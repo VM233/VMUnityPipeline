@@ -73,6 +73,7 @@ namespace VMUnityPipeline.Editor.Contracts
 
             return new VmCommandContract(
                 ReadRequiredString(tool, "toolName"),
+                VmCommandInvocation.Automation(ReadRequiredString(tool, "toolName")),
                 ReadRequiredString(tool, "description"),
                 ToArray(tags),
                 ReadRequiredValue(tool, "inputSchema"),

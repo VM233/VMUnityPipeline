@@ -14,9 +14,33 @@ Returns compact command summaries. Optional query, package, tag, and side-effect
 combine with AND. Results are ordinally sorted by command name before filtering. Offset
 must be non-negative; limit must be between 1 and 50.
 
+Every summary includes the same immutable `invocation` mapping as its full contract.
+
 ## vm_catalog_get
 
-Returns the complete rich contract for one exact command name. An unknown name returns ok=false with errorCode command_not_found.
+Returns the complete rich contract for one exact catalog identifier. An unknown name
+returns `ok=false` with `errorCode=command_not_found`.
+
+`name` identifies the contract. `invocation.command` identifies its registered native
+Unity CLI execution entry. Copy `invocation.arguments` as fixed native parameters. When
+`invocation.argumentsJsonParameter` is present, serialize the owner arguments described
+by `inputSchema` into one JSON object and supply that string in the named native parameter.
+Otherwise supply those arguments as direct native command parameters.
+
+For example, discovery of `vm_auto_prefab_asset_get_properties` returns:
+
+```json
+{"command":"vm_automation_call","arguments":{"command":"vm_auto_prefab_asset_get_properties"},"argumentsJsonParameter":"arguments_json"}
+```
+
+Native commands such as `vm_editor_state` publish their own registered name, empty fixed
+arguments and no JSON parameter. Automation and project tools publish the facade mapping
+from their registration origin, without inferring routing from prefixes or package names.
+Keep the absolute `unity command --project-path` binding for every invocation. For facade
+mutations, also supply the caller's project root as `expected_project_path` and observe
+the selected owner contract's preconditions and confirmation requirements. Discovery does
+not execute the owner or prove that its current prerequisites are satisfied. Durable
+submissions still publish the separate `polling` instruction for their original job.
 
 ## vm_editor_state
 

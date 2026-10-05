@@ -27,7 +27,8 @@ namespace VMUnityPipeline.Editor.Tests
                 var absent = VmCommandContractCatalog.AdoptRevision("absent", () => Array.Empty<VmCommandContract>());
                 Assert.That(absent.ContainsKey(VmCatalogGetCommand.CommandName), Is.True);
                 const string name = "vm_optional_fixture";
-                var optional = new VmCommandContract(name, "Optional capability fixture.", new[] { "readOnly" },
+                var optional = new VmCommandContract(name, VmCommandInvocation.Automation(name),
+                    "Optional capability fixture.", new[] { "readOnly" },
                     VmCatalogGetCommand.Contract.InputSchema, VmCatalogGetCommand.Contract.OutputSchema,
                     Array.Empty<string>(), new[] { "readsProjectState" }, new[] { "editor_connected" }, "Returns fixture evidence.");
                 var present = VmCommandContractCatalog.AdoptRevision("present", () => new[] { optional });

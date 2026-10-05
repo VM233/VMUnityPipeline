@@ -70,6 +70,8 @@ namespace VMUnityPipeline.Editor.Tests
             foreach (var contract in contracts)
             {
                 Assert.That(contract.Description, Is.Not.Empty, contract.Name);
+                Assert.That(contract.Invocation, Is.Not.Null, contract.Name);
+                Assert.That(contract.Invocation.Command, Is.Not.Empty, contract.Name);
                 Assert.That(contract.Package, Is.Not.Empty, contract.Name);
                 Assert.That(contract.Tags, Is.Not.Empty, contract.Name);
                 Assert.That(contract.InputSchema, Is.Not.Null, contract.Name);

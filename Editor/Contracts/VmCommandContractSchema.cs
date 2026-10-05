@@ -31,6 +31,7 @@ namespace VMUnityPipeline.Editor.Contracts
                 new Dictionary<string, VmJsonSchema>
                 {
                     { "name", VmJsonSchema.String("Stable command name.") },
+                    { "invocation", VmCommandInvocation.CreateSchema() },
                     { "description", VmJsonSchema.String("Command purpose.") },
                     { "package", VmJsonSchema.String("Owning UPM package identifier.") },
                     { "tags", VmJsonSchema.Array(VmJsonSchema.String("Hierarchical discovery tag.")) },
@@ -49,6 +50,7 @@ namespace VMUnityPipeline.Editor.Contracts
                 new[]
                 {
                     "name",
+                    "invocation",
                     "description",
                     "package",
                     "tags",

@@ -2,6 +2,24 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.9] - 2026-10-05
+
+### Fixed
+
+- Publish immutable, machine-readable CLI invocation mappings in compact summaries
+  and exact contracts. Automation and project-tool identifiers explicitly target
+  `vm_automation_call` with their fixed owner identifier and JSON input parameter;
+  native commands target their existing registered entry. Discovery no longer
+  describes every catalog identifier as a directly callable Pipeline command.
+- Require the mapping in both discovery output schemas and include it in the
+  existing catalog revision. Routing is declared by the production registration
+  origin, without prefix or package-name inference and without new native commands.
+
+### Tests
+
+- Cover every native registration, general Automation and project-tool adaptation,
+  fixed parameter ownership, immutable shared publication and closed output schemas.
+
 ## [0.5.8] - 2026-10-05
 
 ### Documentation

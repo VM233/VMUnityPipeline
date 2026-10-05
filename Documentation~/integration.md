@@ -62,8 +62,12 @@ Do not run an unbounded full command listing during normal Agent work.
 1. Run a compact official query with a small limit.
 2. Call vm_catalog_list only when searching VM extension contracts; keep its page small.
 3. Call vm_catalog_get for one exact command.
-4. Execute direct Pipeline commands normally, or pass one discovered `vm_auto_` / `vm_pt_`
-   contract to `vm_automation_call`.
+4. Execute the returned `invocation.command` with its fixed `invocation.arguments`.
+   Supply owner input via `invocation.argumentsJsonParameter` when present, or as direct
+   native parameters otherwise. Preserve project binding and owner preconditions.
+
+The [command contracts](commands.md) describe this machine-readable mapping. A catalog
+identifier is not necessarily a registered native CLI command.
 
 ## Warm agent session
 

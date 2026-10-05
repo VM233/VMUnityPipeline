@@ -10,6 +10,8 @@ namespace VMUnityPipeline.Editor.Commands
     internal static class VmAutomationCallCommand
     {
         public const string CommandName = "vm_automation_call";
+        public const string TargetCommandParameter = "command";
+        public const string ArgumentsJsonParameter = "arguments_json";
         public const string Description =
             "Execute one exact VM automation or project-tool contract through the shared owner. " +
             "Call reload-resumable submission contracts attached so their durable job token reaches " +
@@ -20,13 +22,14 @@ namespace VMUnityPipeline.Editor.Commands
 
         public static readonly VmCommandContract Contract = new VmCommandContract(
             CommandName,
+            VmCommandInvocation.Direct(CommandName),
             Description,
             new[] { "automation/execute" },
             VmJsonSchema.Object(
                 new Dictionary<string, VmJsonSchema>
                 {
-                    { "command", VmJsonSchema.String("Exact vm_auto_ or vm_pt_ identifier, or exact automation route.") },
-                    { "arguments_json", VmJsonSchema.String("One JSON object containing owner arguments.", "{}") },
+                    { TargetCommandParameter, VmJsonSchema.String("Exact vm_auto_ or vm_pt_ identifier, or exact automation route.") },
+                    { ArgumentsJsonParameter, VmJsonSchema.String("One JSON object containing owner arguments.", "{}") },
                     { "expected_project_path", VmJsonSchema.String("Absolute project root required by mutating owner contracts. Automation accepts equivalent normalized paths in arguments_json.expectedProjectPath and rejects different project roots.") },
                     { "request_id", VmJsonSchema.String("Optional idempotent request identifier.") },
                     { "agent_id", VmJsonSchema.String("Optional caller identity for action and job ownership.") },
@@ -34,7 +37,7 @@ namespace VMUnityPipeline.Editor.Commands
                         "Inner automation deferred-call wait timeout. This does not extend the outer Unity CLI request timeout. Durable submission contracts must remain attached until they return their inner job token, then the first vm_job_status poll acknowledges delivery and releases execution; use unity command --detach only for long non-durable calls.",
                         120, 1, 3600) }
                 },
-                new[] { "command" }),
+                new[] { TargetCommandParameter }),
             CreateOutputSchema(),
             new[]
             {
@@ -71,9 +74,9 @@ namespace VMUnityPipeline.Editor.Commands
             MainThreadRequired = true,
             Tags = new[] { "automation/execute" })]
         public static async Task<object> Execute(
-            [CliArg("command", "Exact automation command name or route.", Required = true)]
+            [CliArg(TargetCommandParameter, "Exact automation command name or route.", Required = true)]
             string command,
-            [CliArg("arguments_json", "Owner arguments as one JSON object.")]
+            [CliArg(ArgumentsJsonParameter, "Owner arguments as one JSON object.")]
             string argumentsJson = "{}",
             [CliArg("expected_project_path", "Absolute project root for mutating commands. Equivalent normalized arguments_json.expectedProjectPath is accepted.")]
             string expectedProjectPath = null,

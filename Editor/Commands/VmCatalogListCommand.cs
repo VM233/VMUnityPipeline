@@ -9,12 +9,13 @@ namespace VMUnityPipeline.Editor.Commands
     {
         public const string CommandName = "vm_catalog_list";
         public const string Description =
-            "Return a bounded, filtered page of compact VM Pipeline command contracts.";
+            "Return a bounded, filtered page of compact VM contracts with their native CLI invocation mappings.";
         private const int DefaultLimit = 10;
         private const int MaximumLimit = 50;
 
         public static readonly VmCommandContract Contract = new VmCommandContract(
             CommandName,
+            VmCommandInvocation.Direct(CommandName),
             Description,
             new[] { "observability/catalog" },
             VmJsonSchema.Object(
@@ -43,12 +44,13 @@ namespace VMUnityPipeline.Editor.Commands
                                 new Dictionary<string, VmJsonSchema>
                                 {
                                     { "name", VmJsonSchema.String("Stable command name.") },
+                                    { "invocation", VmCommandInvocation.CreateSchema() },
                                     { "description", VmJsonSchema.String("Compact command description.") },
                                     { "package", VmJsonSchema.String("Owning UPM package.") },
                                     { "tags", VmJsonSchema.Array(VmJsonSchema.String("Hierarchical discovery tag.")) },
                                     { "sideEffects", VmJsonSchema.Array(VmJsonSchema.String("Declared side effect.")) }
                                 },
-                                new[] { "name", "description", "package", "tags", "sideEffects" }),
+                                new[] { "name", "invocation", "description", "package", "tags", "sideEffects" }),
                             "Current result page.")
                     }
                 },

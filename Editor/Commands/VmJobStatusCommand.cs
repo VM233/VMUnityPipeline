@@ -15,6 +15,7 @@ namespace VMUnityPipeline.Editor.Commands
 
         public static readonly VmCommandContract Contract = new VmCommandContract(
             CommandName,
+            VmCommandInvocation.Direct(CommandName),
             Description,
             new[] { "jobs/status" },
             VmJsonSchema.Object(new Dictionary<string, VmJsonSchema>

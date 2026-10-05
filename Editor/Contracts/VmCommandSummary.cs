@@ -9,6 +9,9 @@ namespace VMUnityPipeline.Editor.Contracts
         [JsonProperty("name")]
         public string Name { get; }
 
+        [JsonProperty("invocation")]
+        public VmCommandInvocation Invocation { get; }
+
         [JsonProperty("description")]
         public string Description { get; }
 
@@ -24,6 +27,7 @@ namespace VMUnityPipeline.Editor.Contracts
         public VmCommandSummary(VmCommandContract contract)
         {
             Name = contract.Name;
+            Invocation = contract.Invocation;
             Description = contract.Description;
             Package = contract.Package;
             Tags = contract.Tags;
