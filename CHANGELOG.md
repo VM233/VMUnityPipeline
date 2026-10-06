@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here.
 
+## [0.5.11] - 2026-10-06
+
+### Changed
+
+- Require Automation 0.6.136 so native Editor capture and UI Builder rejection
+  receipts include the actual foreground-window observation from their owner.
+
 ## [0.5.10] - 2026-10-05
 
 ### Fixed
