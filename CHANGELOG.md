@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.12] - 2026-10-07
+
+### Fixed
+
+- Declare and forward Automation's strict input-admission errors,
+  `invalid_arguments` and `input_validation_limit`, and adopt Automation 0.6.155.
+
 All notable changes to this package are documented here.
 
 ## [0.5.11] - 2026-10-06

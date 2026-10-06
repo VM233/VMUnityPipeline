@@ -42,6 +42,8 @@ namespace VMUnityPipeline.Editor.Commands
             new[]
             {
                 "invalid_arguments_json",
+                "invalid_arguments",
+                "input_validation_limit",
                 "argument_conflict",
                 "command_not_found",
                 "request_id_conflict",

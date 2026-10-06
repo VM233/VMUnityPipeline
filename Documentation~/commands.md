@@ -100,6 +100,12 @@ the connected checkout's exact absolute path via `expected_project_path`; danger
 contracts require `confirm=true` in the JSON object. Request IDs are idempotent inside the
 current Editor domain, while reload-resumable owners publish durable job state.
 
+Automation validates the JSON object against the selected exact input schema
+before registering a request or starting an owner/job. Unknown fields, wrong
+JSON types and other schema violations return `invalid_arguments` with a JSON
+path. Exceeding the published evaluator capacity returns `input_validation_limit`.
+The facade forwards these admission errors without coercing or filtering input.
+
 Automation owns comparison of `expected_project_path` with an optional JSON
 `expectedProjectPath`. Equivalent normalized absolute paths are accepted and
 fingerprinted consistently. Different roots return `argument_conflict`; a
