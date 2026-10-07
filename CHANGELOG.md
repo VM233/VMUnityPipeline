@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.13] - 2026-10-07
+
+### Changed
+
+- Require Automation 0.6.158 for first-class UI Builder capture-surface
+  selection and effective ancestor-opacity observations in UI Toolkit snapshots.
+
 ## [0.5.12] - 2026-10-07
 
 ### Fixed
