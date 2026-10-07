@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.19] - 2026-10-07
+
+- Require Automation 0.6.164 for exact repeated-component Prefab property reads
+  and discoverable component indices.
+
 ## [0.5.18] - 2026-10-07
 
 ### Fixed
