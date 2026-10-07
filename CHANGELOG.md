@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.16] - 2026-10-07
+
+### Fixed
+
+- Require Automation 0.6.161's native view row orientation and content geometry
+  corrections, including canonical object identities on supported Unity versions.
+
 ## [0.5.15] - 2026-10-07
 
 ### Changed
