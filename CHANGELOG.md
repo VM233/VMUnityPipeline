@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.17] - 2026-10-07
+
+### Changed
+
+- Require Automation 0.6.162's native control geometry diagnostics for the
+  focused screenshot regression.
+
 ## [0.5.16] - 2026-10-07
 
 ### Fixed
