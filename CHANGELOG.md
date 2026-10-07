@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.18] - 2026-10-07
+
+### Fixed
+
+- Require Automation 0.6.163's backing-pixel rectangle for native Editor view
+  capture on scaled displays.
+
 ## [0.5.17] - 2026-10-07
 
 ### Changed
