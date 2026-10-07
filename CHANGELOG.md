@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.15] - 2026-10-07
+
+### Changed
+
+- Require Automation 0.6.160 for explicit native Editor view capture and its
+  target identity and geometry contract in screenshot and Builder preview.
+
 ## [0.5.14] - 2026-10-07
 
 ### Fixed
