@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.14] - 2026-10-07
+
+### Fixed
+
+- Require Automation 0.6.159's corrected Builder capture-surface integration.
+
 ## [0.5.13] - 2026-10-07
 
 ### Changed
