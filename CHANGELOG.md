@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.20] - 2026-10-08
+
+- Require Automation 0.6.174 for native Unity 6 Build Profile platform discovery
+  and creation through the CLI facade.
+
 ## [0.5.19] - 2026-10-07
 
 - Require Automation 0.6.164 for exact repeated-component Prefab property reads
