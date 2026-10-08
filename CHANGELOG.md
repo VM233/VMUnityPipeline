@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.25] - 2026-10-08
+
+- Require Automation 0.6.179 so normal Player shutdown posts Windows WM_CLOSE
+  and avoids Unity Mono's forceful CloseMainWindow implementation.
+
 ## [0.5.24] - 2026-10-08
 
 - Require Automation 0.6.178 with current Player argument and normal-shutdown
