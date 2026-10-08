@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.24] - 2026-10-08
+
+- Require Automation 0.6.178 with current Player argument and normal-shutdown
+  guidance; the underlying CLI execution contracts are unchanged.
+
 ## [0.5.23] - 2026-10-08
 
 - Require Automation 0.6.177 for exact Player process identity and durable normal
