@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.21] - 2026-10-08
+
+- Require Automation 0.6.175 so Build Profile define authoring enables Unity
+  6.3+ native overrides and reaches actual channel compilation.
+
 ## [0.5.20] - 2026-10-08
 
 - Require Automation 0.6.174 for native Unity 6 Build Profile platform discovery
