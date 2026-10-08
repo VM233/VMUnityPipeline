@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.23] - 2026-10-08
+
+- Require Automation 0.6.177 for exact Player process identity and durable normal
+  shutdown through `player/quit`, including native exit evidence and no kill fallback.
+
 ## [0.5.22] - 2026-10-08
 
 - Require Automation 0.6.176 so build observation can read a running Player's
