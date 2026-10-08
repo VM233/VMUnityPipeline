@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.22] - 2026-10-08
+
+- Require Automation 0.6.176 so build observation can read a running Player's
+  log without a Windows sharing violation or terminating the process.
+
 ## [0.5.21] - 2026-10-08
 
 - Require Automation 0.6.175 so Build Profile define authoring enables Unity
