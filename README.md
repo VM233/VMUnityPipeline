@@ -13,6 +13,7 @@ counts and invalid project-tool registrations, then use bounded discovery.
 
 - [Integration and installation](Documentation~/integration.md)
 - [Command contracts](Documentation~/commands.md)
+- [Numeric CLI arguments](Documentation~/json-numbers.md)
 - [Release history](CHANGELOG.md)
 
 Package code is compiled and tested in supported consuming Unity projects after

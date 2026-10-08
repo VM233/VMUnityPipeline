@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.26] - 2026-10-08
+
+- Materialize numeric CLI arguments from their original source lexemes through
+  Automation's exact binary64 converter. Keep JSON syntax and duplicate/document
+  validation with the existing reader; preserve nested LF/CRLF source positions.
+- Prevent an adjacent floating value from changing admitted calibration requests.
+
 ## [0.5.25] - 2026-10-08
 
 - Require Automation 0.6.179 so normal Player shutdown posts Windows WM_CLOSE

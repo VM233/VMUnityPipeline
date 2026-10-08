@@ -37,7 +37,7 @@ namespace VMUnityPipeline.Editor.Commands
                     return false;
                 }
 
-                arguments = ConvertObject(jsonObject);
+                arguments = ConvertObject(jsonObject, new VmCliJsonNumberSource(json));
                 return true;
             }
             catch (JsonException exception)
@@ -45,31 +45,35 @@ namespace VMUnityPipeline.Editor.Commands
                 errorMessage = exception.GetBaseException().Message;
                 return false;
             }
+            catch (FormatException exception)
+            {
+                errorMessage = exception.Message;
+                return false;
+            }
         }
 
-        private static Dictionary<string, object> ConvertObject(JObject source)
+        private static Dictionary<string, object> ConvertObject(JObject source, VmCliJsonNumberSource numbers)
         {
             var result = new Dictionary<string, object>(StringComparer.Ordinal);
             foreach (JProperty property in source.Properties())
-                result.Add(property.Name, ConvertToken(property.Value));
+                result.Add(property.Name, ConvertToken(property.Value, numbers));
             return result;
         }
 
-        private static object ConvertToken(JToken token)
+        private static object ConvertToken(JToken token, VmCliJsonNumberSource numbers)
         {
             switch (token.Type)
             {
                 case JTokenType.Object:
-                    return ConvertObject((JObject)token);
+                    return ConvertObject((JObject)token, numbers);
                 case JTokenType.Array:
                     var values = new List<object>();
                     foreach (JToken item in (JArray)token)
-                        values.Add(ConvertToken(item));
+                        values.Add(ConvertToken(item, numbers));
                     return values;
                 case JTokenType.Integer:
-                    return token.Value<long>();
                 case JTokenType.Float:
-                    return token.Value<double>();
+                    return numbers.Read(token);
                 case JTokenType.Boolean:
                     return token.Value<bool>();
                 case JTokenType.Null:
