@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.27] - 2026-10-11
+
+- Accept a bounded project-local UTF-8 `arguments_file` on the existing automation
+  facade, so large atomic authoring requests can pass Windows' command-line limit.
+  Preserve exact numeric parsing, duplicate/document validation, project binding
+  and the selected owner's transaction. Reject conflicting sources, external or
+  relative paths, invalid UTF-8 and files larger than 4 MiB before owner execution.
+
 ## [0.5.26] - 2026-10-08
 
 - Materialize numeric CLI arguments from their original source lexemes through

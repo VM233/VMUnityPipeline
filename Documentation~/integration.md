@@ -112,6 +112,9 @@ The automation catalog can contain hundreds of contracts without registering hun
 official CLI commands. `vm_catalog_list` remains capped at 50 and defaults to 10;
 `vm_catalog_get` retrieves one full schema. `vm_automation_call` accepts the selected
 identifier plus one JSON object and delegates to the transport-neutral automation owner.
+Large requests use `arguments_file` with an absolute JSON path inside the bound
+project, instead of `arguments_json`. Its 4 MiB UTF-8 limit avoids Windows' process
+argument ceiling while retaining the selected owner's full atomic transaction.
 If that identifier names a discovered but invalid or duplicate project tool, the facade
 returns `invalid_project_tool` or `duplicate_project_tool` together with the exact
 registration source and validation error.

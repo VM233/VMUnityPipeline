@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using UnityEngine;
 using Unity.Pipeline.Commands;
 using VMUnityAutomation.Editor;
 using VMUnityPipeline.Editor.Contracts;
@@ -12,6 +14,7 @@ namespace VMUnityPipeline.Editor.Commands
         public const string CommandName = "vm_automation_call";
         public const string TargetCommandParameter = "command";
         public const string ArgumentsJsonParameter = "arguments_json";
+        public const string ArgumentsFileParameter = "arguments_file";
         public const string Description =
             "Execute one exact VM automation or project-tool contract through the shared owner. " +
             "Call reload-resumable submission contracts attached so their durable job token reaches " +
@@ -29,8 +32,9 @@ namespace VMUnityPipeline.Editor.Commands
                 new Dictionary<string, VmJsonSchema>
                 {
                     { TargetCommandParameter, VmJsonSchema.String("Exact vm_auto_ or vm_pt_ identifier, or exact automation route.") },
-                    { ArgumentsJsonParameter, VmJsonSchema.String("One JSON object containing owner arguments.", "{}") },
-                    { "expected_project_path", VmJsonSchema.String("Absolute project root required by mutating owner contracts. Automation accepts equivalent normalized paths in arguments_json.expectedProjectPath and rejects different project roots.") },
+                    { ArgumentsJsonParameter, VmJsonSchema.String("One JSON object containing owner arguments. Mutually exclusive with arguments_file.") },
+                    { ArgumentsFileParameter, VmJsonSchema.String("Absolute path to one project-local UTF-8 JSON file, at most 4 MiB. Mutually exclusive with arguments_json; the same exact-number and owner validation applies.") },
+                    { "expected_project_path", VmJsonSchema.String("Absolute project root required by mutating owner contracts. Automation accepts equivalent normalized paths in the selected arguments object's expectedProjectPath and rejects different project roots.") },
                     { "request_id", VmJsonSchema.String("Optional idempotent request identifier.") },
                     { "agent_id", VmJsonSchema.String("Optional caller identity for action and job ownership.") },
                     { "timeout_seconds", VmJsonSchema.Integer(
@@ -42,6 +46,7 @@ namespace VMUnityPipeline.Editor.Commands
             new[]
             {
                 "invalid_arguments_json",
+                "invalid_arguments_file",
                 "invalid_arguments",
                 "input_validation_limit",
                 "argument_conflict",
@@ -79,8 +84,10 @@ namespace VMUnityPipeline.Editor.Commands
             [CliArg(TargetCommandParameter, "Exact automation command name or route.", Required = true)]
             string command,
             [CliArg(ArgumentsJsonParameter, "Owner arguments as one JSON object.")]
-            string argumentsJson = "{}",
-            [CliArg("expected_project_path", "Absolute project root for mutating commands. Equivalent normalized arguments_json.expectedProjectPath is accepted.")]
+            string argumentsJson = null,
+            [CliArg(ArgumentsFileParameter, "Project-local UTF-8 JSON file, absolute path, at most 4 MiB. Exclusive with arguments_json.")]
+            string argumentsFile = null,
+            [CliArg("expected_project_path", "Absolute project root for mutating commands. Equivalent normalized expectedProjectPath in owner arguments is accepted.")]
             string expectedProjectPath = null,
             [CliArg("request_id", "Optional idempotent request identifier.")]
             string requestId = null,
@@ -90,8 +97,11 @@ namespace VMUnityPipeline.Editor.Commands
                 "Inner deferred-call timeout from 1 through 3600 seconds. Keep durable submissions attached until they return a job token, then poll once to release execution; use outer --detach only for long non-durable calls.")]
             int timeoutSeconds = 120)
         {
+            if (!VmCliJsonArguments.TryReadSource(argumentsJson, argumentsFile, Path.GetDirectoryName(Application.dataPath),
+                    out string source, out string sourceCode, out string sourceError))
+                return Failure(command, requestId, sourceCode, sourceError);
             if (!VmCliJsonArguments.TryParseObject(
-                    argumentsJson,
+                    source,
                     out Dictionary<string, object> arguments,
                     out string parseError))
             {

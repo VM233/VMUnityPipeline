@@ -95,7 +95,13 @@ execution; subsequent reads are observational.
 ## vm_automation_call
 
 Executes one exact `vm_auto_` or `vm_pt_` contract, or one exact automation route, through
-the transport-neutral owner. `arguments_json` must be one JSON object. Mutations require
+the transport-neutral owner. Supply one JSON object with `arguments_json`, or an
+absolute project-local UTF-8 JSON path with `arguments_file` for large requests.
+The sources are mutually exclusive; files admit an optional UTF-8 BOM and are
+limited to 4 MiB. Both feed the same exact-number parser and owner validation.
+File admission returns `invalid_arguments_file` for invalid paths/encoding/read
+failures, and `input_validation_limit` for the byte limit, before owner execution.
+Mutations require
 the connected checkout's exact absolute path via `expected_project_path`; dangerous
 contracts require `confirm=true` in the JSON object. Request IDs are idempotent inside the
 current Editor domain, while reload-resumable owners publish durable job state.

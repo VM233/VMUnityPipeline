@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -8,6 +9,44 @@ namespace VMUnityPipeline.Editor.Commands
 {
     internal static class VmCliJsonArguments
     {
+        private const int MaximumFileBytes = 4 * 1024 * 1024;
+
+        public static bool TryReadSource(string json, string file, string projectPath,
+            out string source, out string code, out string error)
+        {
+            source = json ?? "{}"; code = null; error = null;
+            if (file == null) return true;
+            if (json != null)
+            {
+                code = "argument_conflict"; error = "Specify arguments_json or arguments_file, not both.";
+                return false;
+            }
+            try
+            {
+                if (!Path.IsPathRooted(file)) throw new ArgumentException("arguments_file requires an absolute path.");
+                string path = Path.GetFullPath(file);
+                string root = Path.GetFullPath(projectPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+                var comparison = Path.DirectorySeparatorChar == '\\' ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+                if (!path.StartsWith(root, comparison)) throw new ArgumentException("arguments_file must belong to the bound project.");
+                using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                if (stream.Length > MaximumFileBytes)
+                {
+                    code = "input_validation_limit"; error = "arguments_file exceeds 4 MiB.";
+                    return false;
+                }
+                using var reader = new StreamReader(stream, new UTF8Encoding(false, true), false);
+                source = reader.ReadToEnd();
+                if (source.Length > 0 && source[0] == '\ufeff') source = source.Substring(1);
+                return true;
+            }
+            catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException ||
+                exception is ArgumentException)
+            {
+                code = "invalid_arguments_file"; error = exception.Message;
+                return false;
+            }
+        }
+
         public static bool TryParseObject(
             string json,
             out Dictionary<string, object> arguments,
@@ -33,7 +72,7 @@ namespace VMUnityPipeline.Editor.Commands
                 while (reader.Read()) { }
                 if (!(token is JObject jsonObject))
                 {
-                    errorMessage = "arguments_json must contain one JSON object.";
+                    errorMessage = "Owner arguments must contain one JSON object.";
                     return false;
                 }
 
