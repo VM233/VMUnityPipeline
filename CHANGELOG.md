@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.28] - 2026-10-12
+
+- Use Automation's typed failure product for JSON/file input rejection. Forward the dispatch owner without a second catch/flattening boundary or an empty catalog-revision fallback. Unexpected transport/initialization failures remain with the official Pipeline envelope.
+- Delegate missing-script removal and its typed result to Automation while retaining the native command/ObjectRef contract.
+- Require Automation 0.6.221, which publishes that shared failure factory.
+
 ## [0.5.27] - 2026-10-11
 
 - Accept a bounded project-local UTF-8 `arguments_file` on the existing automation

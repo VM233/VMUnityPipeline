@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -108,66 +107,24 @@ namespace VMUnityPipeline.Editor.Commands
                 return Failure(command, requestId, "invalid_arguments_json", parseError);
             }
 
-            try
-            {
-                var ownerResult = await VmAutomationExecutor.ExecuteAsync(
-                    command,
-                    arguments,
-                    requestId,
-                    agentId,
-                    timeoutSeconds,
-                    expectedProjectPath);
-                return new VmAutomationCallResult(ownerResult, agentId);
-            }
-            catch (Exception exception)
-            {
-                Exception rootCause = exception.GetBaseException();
-                return Failure(
-                    command,
-                    requestId,
-                    "command_exception",
-                    $"{rootCause.GetType().Name}: {rootCause.Message}");
-            }
+            var ownerResult = await VmAutomationExecutor.ExecuteAsync(
+                command,
+                arguments,
+                requestId,
+                agentId,
+                timeoutSeconds,
+                expectedProjectPath);
+            return new VmAutomationCallResult(ownerResult, agentId);
         }
 
-        private static Dictionary<string, object> Failure(
+        private static VmAutomationCallResult Failure(
             string command,
             string requestId,
             string code,
             string message)
         {
-            return new Dictionary<string, object>
-            {
-                { "ok", false },
-                { "command", command ?? "" },
-                { "route", "" },
-                { "requestId", requestId ?? "" },
-                { "status", "failed" },
-                {
-                    "error",
-                    new Dictionary<string, object>
-                    {
-                        { "code", code },
-                        { "message", message ?? "Automation call was rejected." },
-                        { "retryable", false }
-                    }
-                },
-                { "warnings", Array.Empty<object>() },
-                { "executionTimeMs", 0L },
-                { "catalogRevision", GetCatalogRevisionOrEmpty() }
-            };
-        }
-
-        private static string GetCatalogRevisionOrEmpty()
-        {
-            try
-            {
-                return VmAutomationCatalog.CatalogRevision;
-            }
-            catch
-            {
-                return "";
-            }
+            return new VmAutomationCallResult(VmAutomationInvocationResult.Failure(
+                command, "", requestId, code, message));
         }
 
         private static VmJsonSchema CreateOutputSchema()

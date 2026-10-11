@@ -148,3 +148,9 @@ with the typed `edit_mode_required` error before starting Package Manager work.
 The facade reads Automation's current catalog revision before publishing or
 looking up contracts. [Catalog publication](catalog-publication.md) describes
 ownership, cost bounds and readiness-change verification.
+
+## Error ownership
+
+JSON/file input rejection uses the Automation typed invocation-failure factory. The facade forwards its dispatch owner result without rebuilding domain fields or flattening unexpected exceptions. Unexpected initialization/execution escapes remain official Pipeline failures; transport authentication errors occur before this facade and are never turned into owner success.
+
+The native missing-script command binds the official ObjectRef and describes its hierarchy identity. Automation owns stable Edit Mode/loaded-scene admission, missing-slot mutation, Undo registration, dirty marking and the typed result. The facade does not save scenes.

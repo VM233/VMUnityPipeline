@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using Unity.Pipeline.Commands;
 using Unity.Pipeline.Editor.Authoring;
 using Unity.Pipeline.Models;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
+using VMUnityAutomation.Editor;
 using VMUnityPipeline.Editor.Contracts;
 
 namespace VMUnityPipeline.Editor.Commands
@@ -76,20 +75,6 @@ namespace VMUnityPipeline.Editor.Commands
                 "Official Pipeline ObjectRef for one loaded-scene GameObject.",
                 Required = true)] ObjectRef target)
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode)
-            {
-                return VmRemoveMissingScriptsResult.Failure(
-                    "edit_mode_required",
-                    "Missing-script cleanup requires stable Edit Mode.");
-            }
-
-            if (EditorApplication.isCompiling || EditorApplication.isUpdating)
-            {
-                return VmRemoveMissingScriptsResult.Failure(
-                    "editor_not_stable",
-                    "Missing-script cleanup cannot run while Unity is compiling or updating assets.");
-            }
-
             if (!ObjectResolver.TryResolve(target, out var resolved, out var error))
             {
                 return VmRemoveMissingScriptsResult.Failure(
@@ -105,37 +90,8 @@ namespace VMUnityPipeline.Editor.Commands
                     "The target must resolve directly to a GameObject.");
             }
 
-            var scene = gameObject.scene;
-            if (!scene.IsValid() || !scene.isLoaded)
-            {
-                return VmRemoveMissingScriptsResult.Failure(
-                    "loaded_scene_target_required",
-                    "The target must belong to a loaded scene; prefab assets are not accepted.");
-            }
-
             var identity = ObjectResolver.Describe(gameObject);
-            var missingCount =
-                GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(gameObject);
-            if (missingCount == 0)
-            {
-                return VmRemoveMissingScriptsResult.Success(
-                    0,
-                    identity.HierarchyPath,
-                    scene.path,
-                    scene.isDirty);
-            }
-
-            Undo.RegisterCompleteObjectUndo(gameObject, "Remove Missing Scripts");
-            var removedCount =
-                GameObjectUtility.RemoveMonoBehavioursWithMissingScript(gameObject);
-            EditorUtility.SetDirty(gameObject);
-            EditorSceneManager.MarkSceneDirty(scene);
-
-            return VmRemoveMissingScriptsResult.Success(
-                removedCount,
-                identity.HierarchyPath,
-                scene.path,
-                scene.isDirty);
+            return VmMissingScriptsRemoval.Execute(gameObject, identity.HierarchyPath);
         }
     }
 }
