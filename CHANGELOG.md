@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.29] - 2026-10-20
+
+- Allow Unity 2022.3 consumers to adopt the existing native Pipeline 0.8 command
+  contracts through an explicitly reviewed, immutable compatibility port.
+- Document the separate upstream registry requirement and the required project
+  binding, package adoption, compilation, and catalog acceptance checks.
+
 ## [0.5.28] - 2026-10-12
 
 - Use Automation's typed failure product for JSON/file input rejection. Forward the dispatch owner without a second catch/flattening boundary or an empty catalog-revision fallback. Unexpected transport/initialization failures remain with the official Pipeline envelope.

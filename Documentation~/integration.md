@@ -15,11 +15,29 @@ history cleanup requires explicit project binding.
 
 ## Requirements
 
-- Unity 6000.0 or newer.
+- Unity 2022.3 or newer. On Unity 2022.3, use a reviewed Unity 2022 compatibility
+  port of Pipeline 0.8 pinned to a full remote Git revision. The official registry
+  Pipeline package still declares Unity 6000.0; do not install that unmodified
+  package into Unity 2022.3 or merely override its version requirement.
 - Unity CLI 1.0.0-beta.8 or newer for argument binding. Review the current official release notes when upgrading the CLI.
 - com.unity.pipeline 0.8.0-exp.1 or newer.
 
 Both upstream components are prerelease software. This package pins the Pipeline dependency and reviews Unity CLI release notes before changing the supported CLI version.
+
+### Unity 2022.3 adoption
+
+The VM adapter retains the Pipeline 0.8 attribute assembly and native command
+contracts on Unity 2022.3. A 0.4 compatibility port is not an equivalent dependency.
+The consumer must directly select a compatible `com.unity.pipeline` Git revision
+that retains the official 0.8 protocol and API. It must include the PhysicMaterial
+type alias, raw material render-queue semantics, and Unity 2022 plugin importer
+metadata. Preserve the upstream license and identify the port as unofficial.
+Registry installs on Unity 6 continue to use the existing SemVer dependency.
+
+After UPM resolves, verify the exact project through official `unity status`,
+then `vm_catalog_status` with no invalid project tools and a native read-only
+`vm_editor_state` call. Check the resolved revisions and actual Unity compilation;
+manifest edits alone do not establish compatibility.
 
 ## Pipeline 0.8 migration
 

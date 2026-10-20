@@ -7,6 +7,8 @@ observation. It uses the official Pipeline server as its only Editor transport.
 Install `com.vm233.unity-pipeline` and `com.vm233.unity-automation` from immutable
 remote Git revisions. The package manifest declares supported Unity and upstream
 package requirements; each consuming project owns its exact revision selection.
+Unity 2022.3 requires an explicitly adapted Pipeline 0.8 dependency; Unity 6 uses
+the official registry package. See the integration guide before installation.
 
 Begin with `vm_catalog_status` to inspect the catalog identity, package owner
 counts and invalid project-tool registrations, then use bounded discovery.
