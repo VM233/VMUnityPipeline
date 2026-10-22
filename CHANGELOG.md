@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.30] - 2026-10-23
+
+- Require Automation 0.6.260 so nested JSON DOM project-tool results and error
+  objects pass through the native facade without reflecting DOM navigation
+  metadata or overflowing the Editor stack. Existing command contracts remain unchanged.
+
 ## [0.5.29] - 2026-10-20
 
 - Allow Unity 2022.3 consumers to adopt the existing native Pipeline 0.8 command
