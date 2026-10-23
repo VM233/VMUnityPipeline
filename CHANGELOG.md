@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.32] - 2026-10-24
+
+- Require Automation 0.6.270 so the public job routes resolve live Player quit
+  jobs, release authorized queued shutdowns and support pre-mutation cancellation.
+  Public CLI commands and schemas are unchanged.
+
 ## [0.5.31] - 2026-10-23
 
 - Declare the seven native commands in Pipeline 0.9's explicit global group on
