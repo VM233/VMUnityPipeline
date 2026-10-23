@@ -23,6 +23,9 @@ namespace VMUnityPipeline.Editor.Tests
         {
             var contract = (VmCommandContract)owner.GetField("Contract").GetValue(null);
             var registration = owner.GetMethod("Execute").GetCustomAttribute<CliCommandAttribute>();
+#if UNITY_6000_0_OR_NEWER
+            Assert.That(registration.Group, Is.EqualTo("global"));
+#endif
             Assert.That(contract.Invocation.Command, Is.EqualTo(registration.Name));
             Assert.That(contract.Invocation.Arguments, Is.Empty);
             Assert.That(contract.Invocation.ArgumentsJsonParameter, Is.Null);

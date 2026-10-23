@@ -61,6 +61,9 @@ namespace VMUnityPipeline.Editor.Commands
             "Returns a deterministic page and the total number of matches.");
 
         [CliCommand(
+#if UNITY_6000_0_OR_NEWER
+            "global",
+#endif
             CommandName,
             Description,
             MainThreadRequired = true,

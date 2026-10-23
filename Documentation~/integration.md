@@ -20,7 +20,8 @@ history cleanup requires explicit project binding.
   Pipeline package still declares Unity 6000.0; do not install that unmodified
   package into Unity 2022.3 or merely override its version requirement.
 - Unity CLI 1.0.0-beta.8 or newer for argument binding. Review the current official release notes when upgrading the CLI.
-- com.unity.pipeline 0.8.0-exp.1 or newer.
+- On Unity 6, com.unity.pipeline 0.9.0-exp.1 or newer. Unity 2022.3 uses the
+  explicitly selected compatibility port described below.
 
 Both upstream components are prerelease software. This package pins the Pipeline dependency and reviews Unity CLI release notes before changing the supported CLI version.
 
@@ -32,20 +33,25 @@ The consumer must directly select a compatible `com.unity.pipeline` Git revision
 that retains the official 0.8 protocol and API. It must include the PhysicMaterial
 type alias, raw material render-queue semantics, and Unity 2022 plugin importer
 metadata. Preserve the upstream license and identify the port as unofficial.
-Registry installs on Unity 6 continue to use the existing SemVer dependency.
+The Unity-version compilation branch retains that port's two-string attribute
+API. Unity 6 uses the explicit global-group API and the official registry
+dependency. The Unity 2022 consumer must directly pin its reviewed port rather
+than accept the package's Unity 6 registry default.
 
 After UPM resolves, verify the exact project through official `unity status`,
 then `vm_catalog_status` with no invalid project tools and a native read-only
 `vm_editor_state` call. Check the resolved revisions and actual Unity compilation;
 manifest edits alone do not establish compatibility.
 
-## Pipeline 0.8 migration
+## Native Pipeline declarations
 
 Command declarations still import the `Unity.Pipeline.Commands` namespace.
 Assemblies declaring
 `[CliCommand]` or `[CliArg]` explicitly reference `Unity.Pipeline.Attributes`;
 retain `Unity.Pipeline` only where model or runtime APIs are also used. This
-package supports the new API directly and provides no legacy attribute adapter.
+package uses the native API for its declared Unity version, with no runtime
+attribute adapter. On Unity 6 each command explicitly names the `global` group;
+its published VM name remains invocable by itself through the official CLI.
 
 Editor server settings now live in Project Settings > Pipeline > Editor. Existing
 `EditorPipelineManager.asset` settings are not automatically migrated. Re-enter
@@ -54,12 +60,12 @@ Runtime setup uses Project Settings and `RuntimePipelineBootstrap.Instance`;
 move authored runtime settings out of obsolete scene manager components.
 
 Upstream status commands return JSON objects directly. Do not parse their result
-a second time. `capture_game_view` defaults to `source=screen`; pass `source=camera`
-when the caller requires a camera capture. Runtime commands are discoverable on
-the Editor server with the `runtime` tag, while batch still rejects them.
-The new tag summary query requires the latest Unity CLI.
+a second time. Discover upstream commands through the current CLI's group index,
+and copy their actual arguments. Runtime declarations use the `runtime` tag;
+the removed `RuntimeOnly` named argument must not be copied into consumer code.
+Editor and runtime service prerequisites still belong to their actual owners.
 
-See the [official Pipeline 0.8 release notes](https://discussions.unity.com/t/unity-pipeline-package-0-8-0-exp-1-is-available-now/1737832)
+See the [official Pipeline release notes](https://docs.unity3d.com/Packages/com.unity.pipeline@0.9/changelog/CHANGELOG.html)
 for the remaining upstream changes and release build stripping requirements.
 
 ## Installation

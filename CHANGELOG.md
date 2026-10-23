@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.31] - 2026-10-23
+
+- Declare the seven native commands in Pipeline 0.9's explicit global group on
+  Unity 6, preserving their public bare names without obsolete attribute calls.
+- Keep the declared Unity 2022.3 compilation branch on its reviewed Pipeline 0.8
+  compatibility port. Unity 6 consumers require the official Pipeline 0.9 package.
+- Check the native registration group alongside each public invocation contract.
+
 ## [0.5.30] - 2026-10-23
 
 - Require Automation 0.6.260 so nested JSON DOM project-tool results and error

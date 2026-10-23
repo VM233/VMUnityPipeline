@@ -28,6 +28,9 @@ namespace VMUnityPipeline.Editor.Commands
             "Returns exactly one immutable contract or command_not_found.");
 
         [CliCommand(
+#if UNITY_6000_0_OR_NEWER
+            "global",
+#endif
             CommandName,
             Description,
             MainThreadRequired = true,

@@ -41,6 +41,9 @@ namespace VMUnityPipeline.Editor.Commands
             transactionDurability: "published-job-snapshot");
 
         [CliCommand(
+#if UNITY_6000_0_OR_NEWER
+            "global",
+#endif
             CommandName,
             Description,
             MainThreadRequired = false,

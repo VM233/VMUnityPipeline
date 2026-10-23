@@ -62,6 +62,9 @@ namespace VMUnityPipeline.Editor.Commands
             transactionDurability: "editor-update");
 
         [CliCommand(
+#if UNITY_6000_0_OR_NEWER
+            "global",
+#endif
             CommandName,
             Description,
             MainThreadRequired = true,
