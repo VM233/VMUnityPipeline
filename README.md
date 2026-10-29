@@ -15,6 +15,7 @@ counts and invalid project-tool registrations, then use bounded discovery.
 
 - [Integration and installation](Documentation~/integration.md)
 - [Command contracts](Documentation~/commands.md)
+- [Runtime frame observation](Documentation~/runtime-frame-capture.md)
 - [Numeric CLI arguments](Documentation~/json-numbers.md)
 - [Release history](CHANGELOG.md)
 

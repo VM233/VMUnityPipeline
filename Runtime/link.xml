@@ -1,0 +1,4 @@
+<linker>
+  <assembly fullname="VMUnityPipeline.Runtime" preserve="all" ignoreIfMissing="1" />
+  <assembly fullname="VMUnityAutomation.Runtime" preserve="all" />
+</linker>

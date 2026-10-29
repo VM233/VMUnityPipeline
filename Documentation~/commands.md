@@ -1,5 +1,8 @@
 # Commands
 
+Runtime-only frame capture is registered on the official runtime instance and
+kept separate from this Editor catalog. See [runtime frame capture](runtime-frame-capture.md).
+
 ## vm_catalog_status
 
 Returns the package version, contract version, catalog revision, number of VM

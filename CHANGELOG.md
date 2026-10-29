@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.33] - 2026-10-29
+
+- Expose Automation0.6.326's typed continuous frame capture through three
+  Runtime-only official Pipeline commands, with retained admission/lifetime
+  identity, explicit progress/cancel and immutable terminal statistics.
+- Preserve the small Runtime facade and observation DTOs under managed stripping
+  while retaining native Pipeline build gates and declared Unity signatures.
+
 ## [0.5.32] - 2026-10-24
 
 - Require Automation 0.6.270 so the public job routes resolve live Player quit
