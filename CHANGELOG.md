@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.34] - 2026-10-29
+
+- Require capture, build and lifetime identities in the native frame-command
+  schemas, matching owner admission. Keep observation options optional and cover
+  the actual registration attributes with focused metadata regressions.
+
 ## [0.5.33] - 2026-10-29
 
 - Expose Automation0.6.326's typed continuous frame capture through three

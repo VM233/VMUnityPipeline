@@ -17,9 +17,9 @@ namespace VMUnityPipeline.Runtime
             MainThreadRequired = true,
             Tags = new[] { "runtime/vm/observability" })]
         public static VmFrameCaptureResult Start(
-            [CliArg("capture_id", "Fresh UUID in D format; retained as the capture identity.")]
+            [CliArg("capture_id", "Fresh UUID in D format; retained as the capture identity.", Required = true)]
             string captureID,
-            [CliArg("expected_build_guid", "Exact Application.buildGUID from this runtime's status; may be empty only in Editor Play Mode.")]
+            [CliArg("expected_build_guid", "Exact Application.buildGUID from this runtime's status; may be empty only in Editor Play Mode.", Required = true)]
             string expectedBuildGUID,
             [CliArg("frame_intervals", "Contiguous native frame intervals from1 through120000. This does not set frame rate.")]
             int frameIntervals = 3600) =>
@@ -35,9 +35,9 @@ namespace VMUnityPipeline.Runtime
             MainThreadRequired = true,
             Tags = new[] { "runtime/vm/observability" })]
         public static VmFrameCaptureResult Get(
-            [CliArg("capture_id", "Exact capture UUID from the original start receipt.")]
+            [CliArg("capture_id", "Exact capture UUID from the original start receipt.", Required = true)]
             string captureID,
-            [CliArg("lifetime_id", "Exact service lifetime UUID from the original start receipt.")]
+            [CliArg("lifetime_id", "Exact service lifetime UUID from the original start receipt.", Required = true)]
             string lifetimeID,
             [CliArg("include_histogram", "Include the read-only terminal histogram; progress never includes it.")]
             bool includeHistogram = false) =>
@@ -53,9 +53,9 @@ namespace VMUnityPipeline.Runtime
             MainThreadRequired = true,
             Tags = new[] { "runtime/vm/observability" })]
         public static VmFrameCaptureResult Cancel(
-            [CliArg("capture_id", "Exact capture UUID from the original start receipt.")]
+            [CliArg("capture_id", "Exact capture UUID from the original start receipt.", Required = true)]
             string captureID,
-            [CliArg("lifetime_id", "Exact service lifetime UUID from the original start receipt.")]
+            [CliArg("lifetime_id", "Exact service lifetime UUID from the original start receipt.", Required = true)]
             string lifetimeID) =>
             VmFrameCaptureService.Cancel(captureID, lifetimeID);
     }

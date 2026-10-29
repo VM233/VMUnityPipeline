@@ -3,6 +3,7 @@
   "rootNamespace": "VMUnityPipeline.Editor.Tests",
   "references": [
     "VMUnityPipeline.Editor",
+    "VMUnityPipeline.Runtime",
     "VMUnityAutomation.Editor",
     "Unity.Pipeline",
     "Unity.Pipeline.Attributes",

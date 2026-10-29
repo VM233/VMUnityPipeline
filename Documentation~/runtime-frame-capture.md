@@ -7,7 +7,8 @@ use the existing official Unity runtime Pipeline manager and CLI instance
 binding; no new server or transport is created. They are absent from the VM
 Editor catalog. Discover the exact parameters on the selected live runtime.
 
-Start requires a fresh capture UUID, the exact build GUID from official runtime
+The native input schemas require the capture/build/lifetime identity strings;
+they are not nullable optional arguments. Start requires a fresh capture UUID, the exact build GUID from official runtime
 status and1–120,000 frame intervals. Save the original receipt before polling:
 every get/cancel must carry its capture and lifetime UUIDs. An identical start
 observes the same admission; another active capture is rejected. After a
@@ -65,3 +66,8 @@ the official CLI.
 The Automation documentation owns the measurement contract, cost ledger,
 quantile definition, component lifecycle and focused tests. This facade only
 adapts typed input/output; it contains no second sampler or histogram.
+
+The nine metadata regressions inspect six required identity parameters, two
+optional observation parameters and three Runtime-only/main-thread registrations.
+Their fixed maximum is27 parameter visits andnine member queries, without
+asset scanning. Formal live discovery must still report the required lists.
